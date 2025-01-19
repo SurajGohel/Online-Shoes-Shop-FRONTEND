@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Online_Shoes_Shop.Models.ShoesModel>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="box">
+        <div class="content">
+            <h3>No items found</h3>
+        </div>
+    </div>
+}
+else
+{
+    foreach (var shoes in Model)
+    {
+        
+        <div id="getDetail" class="box">
+            <div class="ms-1">@shoes.CategoryName</div>
+            <a style="text-decoration:none;" asp-controller="Shoes" asp-action="ShoeDetail"
+               asp-route-ShoeId="@shoes.ShoeId">
+            <div class="image">
+                <img src="~/images/product-1.png" alt="">
+            </div>
+            <div class="content">
+                <h3>@shoes.Name</h3>
+                <div class="price">$@shoes.Price</div>
+                @* Add other content here if needed *@
+            </div>
+            </a>
+        </div>
+        
+    }
+}
+
+<script>
+
+</script>

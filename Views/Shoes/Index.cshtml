@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Online_Shoes_Shop.Models.ShoesModel>
+
+<section class="products container-fluid" id="products">
+    <div class="row mx-5">
+        <div class="ms-4 col-3 d-flex justify-content-start align-items-center">
+            <span style="font-size:1.5em; font-weight:500;">Category : &nbsp;</span>
+            <select id="categoryDropdown" style="font-size:1.5em; font-weight:500;" class="px-2 py-1 border border-3 border-success">
+                @foreach (var item in ViewBag.ShoesDropdown as List<SelectListItem>)
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+            </select>
+
+        </div>
+        <div class="col-5 pt-5"><h1 class="heading"><span>
+            
+        </span>Our Products</h1></div>
+        <div class="col d-flex justify-content-end align-items-center">
+            <input id="searchBox" class="fs-3 border border-2 w-75 p-3" type="Text" placeholder="Search Here ......" />
+        </div>
+    </div>
+
+    <div class="box-container">
+        @Html.Partial("_ShoesList", Model)
+    </div>
+</section>
+
+@section Scripts
+{
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            console.log("DOM is ready");
+
+            // Handle search input
+            $(document).on('input', '#searchBox', function () {
+                const query = $(this).val();
+                console.log("Search Box Input:", query);
+
+                // Clear dropdown selection when search is active
+                $('#categoryDropdown').val('');
+                console.log("Category dropdown cleared");
+
+                if (query.trim() === '') {
+                    location.reload(); // Reload to show all items
+                } else {
+                    $.get('/Shoes/SearchPartial', { query: query }, function (result) {
+                        console.log("Search results loaded");
+                        $('.box-container').html(result); // Update the box-container with the search results
+                    }).fail(function () {
+                        $('.box-container').html('<p>Error loading results.</p>');
+                    });
+                }
+            });
+
+            // Handle category dropdown change
+            $(document).on('change', '#categoryDropdown', function () {
+                const categoryId = $(this).val();
+                console.log("Category Dropdown Changed, Selected ID:", categoryId);
+
+                // Clear search box when category is selected
+                $('#searchBox').val('');
+                console.log("Search box cleared");
+
+                if (categoryId) {
+                    $.get('/Shoes/GetShoesByCategory', { id: categoryId }, function (result) {
+                        console.log("Category results loaded");
+                        $('.box-container').html(result);
+                    }).fail(function () {
+                        $('.box-container').html('<p>Error loading shoes for the selected category.</p>');
+                    });
+                }
+            });
+        });
+    </script>
+}
+
+
+
