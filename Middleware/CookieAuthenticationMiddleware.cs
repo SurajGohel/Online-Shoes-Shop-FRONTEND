@@ -32,10 +32,7 @@ namespace Online_Shoes_Shop.Middleware
                 // Create a claims identity and set it on the HttpContext
                 var identity = new ClaimsIdentity(claims, "CookieAuth");
                 var principal = new ClaimsPrincipal(identity);
-                foreach (var claim in principal.Claims)
-                {
-                    Console.WriteLine($"Type: {claim.Type}, Value: {claim.Value}");
-                }
+                
 
                 context.User = principal;
             }
