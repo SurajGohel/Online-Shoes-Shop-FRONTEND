@@ -19,7 +19,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.CategoryName)
             </th>
-            <th></th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -33,9 +33,10 @@
             </td>
             <td>
                     <a asp-action="Add" asp-route-CategoryId="@item.CategoryId">Edit</a> |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
+                    <a asp-area="Admin" asp-controller="Category" asp-action="Delete" asp-route-CategoryId="@item.CategoryId">
+                        Delete
+                    </a>
+            </td>x
         </tr>
 }
     </tbody>

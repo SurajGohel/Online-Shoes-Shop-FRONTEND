@@ -41,7 +41,6 @@ namespace Online_Shoes_Shop.Areas.Admin.Controllers
         {
             if (CategoryId.HasValue)
             {
-                Console.WriteLine("Update Ma Aavyu");
                 var response = await _httpClient.GetAsync($"CategoryDetail/{CategoryId}");
                 if (response.IsSuccessStatusCode)
                 {
@@ -50,7 +49,6 @@ namespace Online_Shoes_Shop.Areas.Admin.Controllers
                     return View(cat);
                 }
             }
-            Console.WriteLine("No AAyvu");
             return View(new CategoriesModel());
         }
 
@@ -62,16 +60,28 @@ namespace Online_Shoes_Shop.Areas.Admin.Controllers
                 var json = JsonConvert.SerializeObject(cat);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 HttpResponseMessage response;
-
+                Console.WriteLine(content);
                 if (cat.CategoryId == null)
+                {
                     response = await _httpClient.PostAsync("api/Categories", content);
+                }
                 else
+                {
                     response = await _httpClient.PutAsync($"api/Categories/{cat.CategoryId}", content);
-
+                }
+                
                 if (response.IsSuccessStatusCode)
                     return RedirectToAction("GetAll");
             }
             return View("Add", cat);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int CategoryId)
+        {
+            Console.WriteLine($"{CategoryId}");
+            var response = await _httpClient.DeleteAsync($"api/Categories/{CategoryId}");
+            return RedirectToAction("GetAll");
         }
     }
 }

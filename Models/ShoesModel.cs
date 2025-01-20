@@ -2,7 +2,7 @@
 {
     public class ShoesModel
     {
-        public int ShoeId { get; set; } // Corresponds to ShoeId (Primary Key)
+        public int? ShoeId { get; set; } // Corresponds to ShoeId (Primary Key)
         public string Name { get; set; } // Corresponds to Name
         public int CategoryId { get; set; } // Corresponds to CategoryId (Foreign Key referencing Categories table)
         public string CategoryName { get; set; }
