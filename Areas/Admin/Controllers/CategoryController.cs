@@ -31,10 +31,10 @@ namespace Online_Shoes_Shop.Areas.Admin.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var data = await response.Content.ReadAsStringAsync();
-                var shoes = JsonConvert.DeserializeObject<List<CategoriesModel>>(data);
+                var shoes = JsonConvert.DeserializeObject<List<CategoryDropdownModel>>(data);
                 return View(shoes);
             }
-            return View(new List<CategoriesModel>());
+            return View(new List<CategoryDropdownModel>());
         }
 
         public async Task<IActionResult> Add(int? CategoryId)
@@ -45,15 +45,15 @@ namespace Online_Shoes_Shop.Areas.Admin.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var data = await response.Content.ReadAsStringAsync();
-                    var cat = JsonConvert.DeserializeObject<CategoriesModel>(data);
+                    var cat = JsonConvert.DeserializeObject<CategoryDropdownModel>(data);
                     return View(cat);
                 }
             }
-            return View(new CategoriesModel());
+            return View(new CategoryDropdownModel());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Save(CategoriesModel cat)
+        public async Task<IActionResult> Save(CategoryDropdownModel cat)
         {
             if (ModelState.IsValid)
             {

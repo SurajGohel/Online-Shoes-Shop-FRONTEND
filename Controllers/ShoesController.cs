@@ -30,7 +30,7 @@ namespace Online_Shoes_Shop.Controllers
                 {
                     //Console.WriteLine("Thyu To Chhe");
                     var dt = await res.Content.ReadAsStringAsync();
-                    var cat = JsonConvert.DeserializeObject<List<CategoriesModel>>(dt);
+                    var cat = JsonConvert.DeserializeObject<List<CategoryDropdownModel>>(dt);
 
                     // Store in ViewBag for the dropdown
                     ViewBag.ShoesDropdown = cat.Select(shoe => new SelectListItem
@@ -41,7 +41,7 @@ namespace Online_Shoes_Shop.Controllers
                 }
                 else
                 {
-                    ViewBag.ShoesDropdown = new List<CategoriesModel>(); // Empty list if API call fails
+                    ViewBag.ShoesDropdown = new List<CategoryDropdownModel>(); // Empty list if API call fails
                 }
 
                 var data = await response.Content.ReadAsStringAsync();
