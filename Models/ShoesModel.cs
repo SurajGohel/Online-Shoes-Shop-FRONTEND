@@ -1,4 +1,6 @@
-﻿namespace Online_Shoes_Shop.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Online_Shoes_Shop.Models
 {
     public class ShoesModel
     {
@@ -8,6 +10,7 @@
         public string CategoryName { get; set; }
         public double Price { get; set; } // Corresponds to Price
         public string ImageURL { get; set; } // Corresponds to ImageURL
+        [Required]
         public IFormFile Image { get; set; } // Corresponds to Image (stored as binary data)
         public string Description { get; set; } // Corresponds to Description
         public int Stock { get; set; } // Corresponds to Stock
