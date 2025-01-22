@@ -162,7 +162,7 @@ namespace Online_Shoes_Shop.Controllers
                 HttpContext.SignOutAsync();
 
                 // Redirect to the login page
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Index", "Shoes");
             }
             
             return RedirectToAction("Index", "Shoes");
