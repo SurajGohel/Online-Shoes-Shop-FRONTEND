@@ -31,7 +31,8 @@ namespace Online_Shoes_Shop.Areas.Admin.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var data = await response.Content.ReadAsStringAsync();
-                var shoes = JsonConvert.DeserializeObject<List<CategoryDropdownModel>>(data);
+                var shoes = JsonConvert.DeserializeObject<List<Online_Shoes_Shop.Models.CategoryDropdownModel>>(data);
+
                 return View(shoes);
             }
             return View(new List<CategoryDropdownModel>());
@@ -45,15 +46,15 @@ namespace Online_Shoes_Shop.Areas.Admin.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var data = await response.Content.ReadAsStringAsync();
-                    var cat = JsonConvert.DeserializeObject<CategoryDropdownModel>(data);
+                    var cat = JsonConvert.DeserializeObject<Online_Shoes_Shop.Models.CategoryDropdownModel>(data);
                     return View(cat);
                 }
             }
-            return View(new CategoryDropdownModel());
+            return View(new Online_Shoes_Shop.Models.CategoryDropdownModel());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Save(CategoryDropdownModel cat)
+        public async Task<IActionResult> Save(Online_Shoes_Shop.Models.CategoryDropdownModel cat)
         {
             if (ModelState.IsValid)
             {

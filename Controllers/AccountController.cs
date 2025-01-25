@@ -49,7 +49,7 @@ namespace Online_Shoes_Shop.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return RedirectToAction("Index", "Shoes");
+                    return RedirectToAction("Login", "Account");
                 }
                 else
                 {
