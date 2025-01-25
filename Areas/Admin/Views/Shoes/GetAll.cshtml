@@ -5,78 +5,107 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>GetAll</h1>
+<h1>GetAll Shoes</h1>
 
-<p>
-    <a asp-action="Add">Create New</a>
-</p>
-<div style="overflow-x: auto;">
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ShoeId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageURL)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stock)
-            </th>
-            <th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ShoeId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageURL)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock)
-            </td>
-            <td>
-                    <a asp-action="Add" asp-route-ShoeId="@item.ShoeId">Edit</a> |
-                    <a asp-area="Admin" asp-controller="Shoes" asp-action="Delete" asp-route-ShoeId="@item.ShoeId">
-                        Delete
-                    </a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="row">
+    <div class="col-4">
+        <p>
+            <a asp-action="Add">Create New</a>
+        </p>
+    </div>
+    <div class="col-4"></div>
+    <div class="col-4 mb-1">
+        <div class="input-group">
+            <input type="text"
+                   id="searchBox"
+                   placeholder="Search ..."
+                   class="form-control" />
+        </div>
+    </div>
 </div>
+
+<div style="overflow-x: auto;">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.ShoeId)</th>
+                <th>@Html.DisplayNameFor(model => model.Name)</th>
+                <th>@Html.DisplayNameFor(model => model.CategoryName)</th>
+                <th>@Html.DisplayNameFor(model => model.Price)</th>
+                <th>@Html.DisplayNameFor(model => model.ImageURL)</th>
+                <th>@Html.DisplayNameFor(model => model.Stock)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="shoesTableBody">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ShoeId</td>
+                    <td>@item.Name</td>
+                    <td>@item.CategoryName</td>
+                    <td>@item.Price</td>
+                    <td>
+                        <img src="@item.ImageURL" alt="Image" style="max-width: 7vw; height: auto;" />
+                    </td>
+                    <td>@item.Stock</td>
+                    <td>
+                        <a asp-action="Add" asp-route-ShoeId="@item.ShoeId">Edit</a> |
+                        <a asp-area="Admin" asp-controller="Shoes" asp-action="Delete" asp-route-ShoeId="@item.ShoeId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts
+{
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#searchBox').on('input', function () {
+                const query = $(this).val(); // Get user input
+                if(query.length<1){
+                    window.location.reload();
+                }
+                if (query.length >0) {
+                // Send AJAX request to your Web API
+                $.ajax({
+                    url: '/Admin/Shoes/SearchShoeByName', // Updated URL to include Admin area
+                    type: 'GET',
+                    data: { shoeName: query }, // Pass the search query
+                    success: function (response) {
+                        const tableBody = $('#shoesTableBody');
+                        tableBody.empty(); // Clear existing rows
+
+                        // Loop through the filtered data and append rows
+                        response.forEach(shoe => {
+                            const row = `
+                                <tr>
+                                    <td>${shoe.shoeId}</td>
+                                    <td>${shoe.name}</td>
+                                    <td>${shoe.categoryName}</td>
+                                    <td>${shoe.price}</td>
+                                    <td>
+                                        <img src="${shoe.imageURL}" alt="Image" style="max-width: 7vw; height: auto;" />
+                                    </td>
+                                    <td>${shoe.stock}</td>
+                                    <td>
+                                        <a href="/Admin/Shoes/Add?ShoeId=${shoe.shoeId}">Edit</a> |
+                                        <a href="/Admin/Shoes/Delete?ShoeId=${shoe.shoeId}">Delete</a>
+                                    </td>
+                                </tr>
+                            `;
+                            tableBody.append(row);
+                        });
+                    },
+                    error: function () {
+                        alert('An error occurred while fetching data.');
+                    }
+                });
+                }
+            });
+        });
+    </script>
+}

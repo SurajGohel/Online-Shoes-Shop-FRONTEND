@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Online_Shoes_Shop.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Text;
 
 namespace Online_Shoes_Shop.Controllers
@@ -105,7 +106,7 @@ namespace Online_Shoes_Shop.Controllers
                         var username = jwtToken.Claims.FirstOrDefault(c => c.Type == "sub")?.Value;
                         var role = jwtToken.Claims.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role")?.Value;
                         var expiration = jwtToken.Claims.FirstOrDefault(c => c.Type == "exp")?.Value;
-
+                        var userId = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
                         // Create cookie options
                         var cookieOptions = new CookieOptions
                         {
@@ -114,6 +115,7 @@ namespace Online_Shoes_Shop.Controllers
                         };
 
                         // Store claims in cookies
+                        Response.Cookies.Append("userid", userId, cookieOptions);
                         Response.Cookies.Append("username", username, cookieOptions);
                         Response.Cookies.Append("role", role, cookieOptions);
                         Response.Cookies.Append("expiration", expiration, cookieOptions);
@@ -155,6 +157,8 @@ namespace Online_Shoes_Shop.Controllers
             // Remove specific cookies
             if (HttpContext.Request.Cookies["role"] == "User")
             {
+                Response.Cookies.Delete("userid");
+
                 Response.Cookies.Delete("username");
                 Response.Cookies.Delete("role");
                 Response.Cookies.Delete("expiration");
@@ -169,6 +173,15 @@ namespace Online_Shoes_Shop.Controllers
             
         }
 
+        [HttpGet]
+        public IActionResult IsUserLoggedIn()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return Json(new { isLoggedIn = true });
+            }
+            return Json(new { isLoggedIn = false });
+        }
 
 
         public IActionResult AccessDenied()

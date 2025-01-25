@@ -5,9 +5,10 @@ document.querySelector('#search-btn').onclick = () =>{
     navbar.classList.remove('active');
 }
 
-//New Slide
+//New Logout start
 
-//New Slide
+
+//New Logout end
 
 let navbar = document.querySelector('.navbar');
 

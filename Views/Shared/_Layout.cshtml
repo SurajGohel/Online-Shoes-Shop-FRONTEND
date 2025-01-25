@@ -29,7 +29,7 @@
         <a asp-controller="Home" asp-action="Index" class="logo"> <i class="fas fa-shoe-prints"></i> shoes</a>
 
         <nav class="navbar">
-            <a href="#home">home</a>
+            <a asp-controller="Shoes" asp-action="Index">home</a>
             <a href="#contact">contact</a>
             <a href="#about-us">About</a>
             @if (Context.Request.Cookies["role"]=="Admin"){
@@ -42,7 +42,9 @@
         <div class="icons">
             <div id="menu-btn" class="fas fa-bars"></div>
             @* <div id="search-btn" class="fas fa-search"></div> *@
-            <a href="#" class="fas fa-shopping-cart"></a>
+
+            <a id="cartLink" class="fas fa-shopping-cart" href="javascript:void(0);"></a>
+
 
             <div class="profile-dropdown">
                 <a href="#" class="fas fa-user"></a>
@@ -50,7 +52,8 @@
                     @if (User.Identity.IsAuthenticated && Context.Request.Cookies["role"]=="User")
                     {
                         <span>Hello, @User.Identity.Name!</span>
-                        <a asp-controller="Account" asp-action="Logout">Logout</a>
+                        <a asp-controller="Account" asp-action="Logout" id="logoutLink">Logout</a>
+
                     }
                     else
                     {
@@ -74,294 +77,26 @@
 
     <section class="home" id="home">
 
-        <div class="slides-container">
-
-            <div class="slide active">
-                <div class="content">
-                    <span>new winter</span>
-                    <h3>shoes collection</h3>
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Enim consequatur reprehenderit.</p>
-                    <button class="btn">
-                        <span>shop now</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
-                </div>
-                <div class="image">
-                    <img src="~/images/header-1.png" alt="">
-                </div>
-            </div>
-
-            <div class="slide">
-                <div class="content">
-                    <span>new winter</span>
-                    <h3>shoes collection</h3>
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Enim consequatur reprehenderit.</p>
-                    <button class="btn">
-                        <span>shop now</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
-                </div>
-                <div class="image">
-                    <img src="~/images/header-2.png" alt="">
-                </div>
-            </div>
-
-        </div>
-
-        <div id="slide-next" onclick="next()" class="fas fa-angle-right"></div>
-        <div id="slide-prev" onclick="prev()" class="fas fa-angle-left"></div>
-
-    </section>
+        
 
     <!-- home section ends -->
 
     <div class="container-fluid">
         <div class="row min-vh-100">
-            <div class="col">
+            <div class="col mt-5">
                 @RenderBody()
             </div>
 
         </div>
     </div>
 
-    <!-- latest product section starts -->
-
-    @* <section class="products" id="products"> *@
-
-    @*     <h1 class="heading"><span>latest</span> products</h1> *@
-
-    @*     <div class="box-container"> *@
-
-    @*         <div class="box"> *@
-    @*             <div class="image"> *@
-    @*                 <img src="~/images/product-1.png" alt=""> *@
-    @*             </div> *@
-    @*             <div class="content"> *@
-    @*                 <h3>nike shoes</h3> *@
-    @*                 <div class="price">$170.00</div> *@
-    @*                 <div class="stars"> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <span>(50)</span> *@
-    @*                 </div> *@
-    @*                 <a href="#" class="btn"> <i class="far fa-heart"></i></a> *@
-    @*             </div> *@
-    @*         </div> *@
-
-    @*         <div class="box"> *@
-    @*             <div class="image"> *@
-    @*                 <img src="~/images/product-2.png" alt=""> *@
-    @*             </div> *@
-    @*             <div class="content"> *@
-    @*                 <h3>nike shoes</h3> *@
-    @*                 <div class="price">$170.00</div> *@
-    @*                 <div class="stars"> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <span>(50)</span> *@
-    @*                 </div> *@
-    @*                 <a href="#" class="btn"> <i class="far fa-heart"></i></a> *@
-    @*             </div> *@
-    @*         </div> *@
-
-    @*         <div class="box"> *@
-    @*             <div class="image"> *@
-    @*                 <img src="~/images/product-3.png" alt=""> *@
-    @*             </div> *@
-    @*             <div class="content"> *@
-    @*                 <h3>nike shoes</h3> *@
-    @*                 <div class="price">$170.00</div> *@
-    @*                 <div class="stars"> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <span>(50)</span> *@
-    @*                 </div> *@
-    @*                 <a href="#" class="btn"> <i class="far fa-heart"></i></a> *@
-    @*             </div> *@
-    @*         </div> *@
-
-    @*         <div class="box"> *@
-    @*             <div class="image"> *@
-    @*                 <img src="~/images/product-4.png" alt=""> *@
-    @*             </div> *@
-    @*             <div class="content"> *@
-    @*                 <h3>nike shoes</h3> *@
-    @*                 <div class="price">$170.00</div> *@
-    @*                 <div class="stars"> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <span>(50)</span> *@
-    @*                 </div> *@
-    @*                 <a href="#" class="btn"> <i class="far fa-heart"></i></a> *@
-    @*             </div> *@
-    @*         </div> *@
-
-    @*         <div class="box"> *@
-    @*             <div class="image"> *@
-    @*                 <img src="~/images/product-5.png" alt=""> *@
-    @*             </div> *@
-    @*             <div class="content"> *@
-    @*                 <h3>nike shoes</h3> *@
-    @*                 <div class="price">$170.00</div> *@
-    @*                 <div class="stars"> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <span>(50)</span> *@
-    @*                 </div> *@
-    @*                 <a href="#" class="btn"> <i class="far fa-heart"></i></a> *@
-    @*             </div> *@
-    @*         </div> *@
-
-    @*         <div class="box"> *@
-    @*             <div class="image"> *@
-    @*                 <img src="~/images/product-6.png" alt=""> *@
-    @*             </div> *@
-    @*             <div class="content"> *@
-    @*                 <h3>nike shoes</h3> *@
-    @*                 <div class="price">$170.00</div> *@
-    @*                 <div class="stars"> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <i class="fas fa-star"></i> *@
-    @*                     <span>(50)</span> *@
-    @*                 </div> *@
-    @*                 <a href="#" class="btn"> <i class="far fa-heart"></i></a> *@
-    @*             </div> *@
-    @*         </div> *@
-
-    @*     </div> *@
-
-    @* </section> *@
-
-    <!-- latest product section ends -->
-
-    @* <div class="container row"> *@
-    @*     <div class="sidebar col-2 bg-warning"></div> *@
-    @*     <div class="content col bg-danger"></div> *@
-    @* </div> *@
-
-    @* <section class="shoe-detail"> *@
-    @*     <div class="shoe-container"> *@
-    @*         <div class="shoe-image"> *@
-    @*             <img src="~/images/product-1.png" alt="Nike Shoe"> *@
-    @*         </div> *@
-    @*         <div class="shoe-info"> *@
-    @*             <h1>Nike Running Shoe</h1> *@
-    @*             <p class="price">$170.00</p> *@
-    @*             <p class="description"> *@
-    @*                 This Nike Running Shoe is designed for maximum comfort and style. *@
-    @*                 Featuring lightweight materials, breathable mesh, and a cushioned sole, *@
-    @*                 it ensures a great running experience. *@
-    @*             </p> *@
-    @*             <div class="ratings"> *@
-    @*                 ⭐⭐⭐⭐⭐ <span>(50 reviews)</span> *@
-    @*             </div> *@
-    @*             <button class="buy-now">Buy Now</button> *@
-    @*         </div> *@
-    @*     </div> *@
-    @* </section> *@
     <!-- contact section starts -->
 
-    <section class="contact" id="contact">
-
-        <h1 class="heading"><span>contact</span> us</h1>
-
-        <div class="row">
-
-            <div class="image">
-                <img src="~/images/contact.png" alt="">
-            </div>
-
-            <form action="">
-                <h3>get in touch</h3>
-                <div class="inputBox">
-                    <input type="text" placeholder="Your Name">
-                    <input type="email" placeholder="Your Email">
-                </div>
-                <div class="inputBox">
-                    <input type="number" placeholder="Your Number">
-                    <input type="text" placeholder="Your Subject">
-                </div>
-                <textarea placeholder="Your Message" cols="30" rows="10"></textarea>
-                <input type="submit" value="send message" class="btn">
-            </form>
-
-        </div>
-
-    </section>
+    
 
     <!-- contact section ends -->
 
-    @* :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: *@
-
-
-    @* <div class="container"> *@
-    @*     <main role="main" class="pb-3"> *@
-    @*         @RenderBody() *@
-    @*     </main> *@
-    @* </div> *@
-
-
-    <!-- footer section starts -->
-
-    <section class="footer" id="about-us">
-
-        <div class="box-container">
-
-            <div class="box">
-                <h3>about us</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore magnam.</p>
-            </div>
-
-            <div class="box">
-                <h3>our services</h3>
-                <a href="#">pricing</a>
-                <a href="#">discount</a>
-                <a href="#">refund policy</a>
-                <a href="#">shipping mode</a>
-            </div>
-
-            <div class="box">
-                <h3>quick links</h3>
-                <a href="#">home</a>
-                <a href="#">products</a>
-                <a href="#">featured</a>
-                <a href="#">review</a>
-            </div>
-
-            <div class="box">
-                <h3>social links</h3>
-                <a href="#"> <i class="fab fa-facebook-f"></i> facebook</a>
-                <a href="#"> <i class="fab fa-twitter"></i> twitter</a>
-                <a href="#"> <i class="fab fa-instagram"></i> instagram</a>
-                <a href="#"> <i class="fab fa-linkedin"></i> linkedin</a>
-            </div>
-
-        </div>
-
-    </section>
-
-    <section class="credit">
-        &copy; copyright 2024 by ninjashub
-    </section>
-    <!-- footer section ends -->
+    
 
 
     <!-- swiper js cdn link -->
@@ -376,3 +111,37 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<script>
+        $(document).ready(function () {
+        // When the logout link is clicked
+        $("#logoutLink").on("click", function (e) {
+            // Prevent the default behavior (navigation)
+            e.preventDefault();
+
+            // Show a confirmation dialog
+            if (confirm("Are you sure you want to logout?")) {
+                // If confirmed, redirect to the logout action
+                window.location.href = $(this).attr("href");
+            }
+            // If not confirmed, do nothing (just close the dialog)
+        });
+    });
+
+    document.getElementById("cartLink").addEventListener("click", function () {
+        fetch('/Account/IsUserLoggedIn')
+            .then(response => response.json())
+            .then(data => {
+                if (data.isLoggedIn) {
+                    // User is logged in, navigate to the cart
+                    window.location.href = '/Cart/GetCartItem';
+                } else {
+                    // User is not logged in, show login prompt
+                    alert("Please log in to view your cart.");
+                }
+            })
+            .catch(error => {
+                console.error("Error checking login status:", error);
+            });
+    });
+</script>

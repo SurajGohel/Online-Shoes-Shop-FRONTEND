@@ -137,5 +137,38 @@ namespace Online_Shoes_Shop.Areas.Admin.Controllers
             var response = await _httpClient.DeleteAsync($"api/Shoes/{ShoeId}");
             return RedirectToAction("GetAll");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchShoeByName(string shoeName)
+        {
+            if (string.IsNullOrWhiteSpace(shoeName))
+            {
+                return Json(new List<ShoesModel>());
+            }
+
+            try
+            {
+                Console.WriteLine(shoeName);
+                // Call the Web API
+                var response = await _httpClient.GetAsync($"api/Shoes/SearchByName?shoeName={shoeName}");
+                if (response.IsSuccessStatusCode)
+                {
+                    // Read response as a string and deserialize
+                    var data = await response.Content.ReadAsStringAsync();
+                    var shoes = JsonConvert.DeserializeObject<List<ShoesModel>>(data);
+                    return Json(shoes);
+                }
+
+                // Return an empty list if the API call fails
+                return Json(new List<ShoesModel>());
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions (e.g., log error)
+                return Json(new { error = ex.Message });
+            }
+        }
+
+
     }
 }

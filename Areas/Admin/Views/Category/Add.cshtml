@@ -5,9 +5,16 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Add</h1>
+@if (Model.CategoryId == null)
+{
+    <h1>Add Category</h1>
+}
+else
+{
+    <h1>Edit Category</h1>
+}
 
-<h4>Category</h4>
+@* <h4>Category</h4> *@
 
 <hr />
 <div class="row">
@@ -26,7 +33,7 @@
                 <span asp-validation-for="CategoryName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Add Cateogry" class="btn btn-primary" />
+                <input type="submit" value=@if(Model.CategoryId==null){<text>Add</text>}else{<text>Edit</text>} class="btn btn-primary" />
             </div>
         </form>
     </div>
