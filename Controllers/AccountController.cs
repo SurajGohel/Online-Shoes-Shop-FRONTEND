@@ -110,7 +110,6 @@ namespace Online_Shoes_Shop.Controllers
                         // Create cookie options
                         var cookieOptions = new CookieOptions
                         {
-                            HttpOnly = true,
                             Expires = DateTimeOffset.UtcNow.AddMinutes(30) // Set expiration time as per token expiration
                         };
 

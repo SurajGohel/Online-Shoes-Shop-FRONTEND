@@ -1,142 +1,142 @@
 ﻿@* @section Styles { *@
 @*     <link href="~/css/ShoeDetail.css" rel="stylesheet" /> *@
 @* } *@
- 
+
 
 @model Online_Shoes_Shop.Models.ShoeDetailModel
 
 <style>
     body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
-    color: #333;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+        color: #333;
     }
 
     .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #fff;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    .header .logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #2a9d8f;
-    display: flex;
-    align-items: center;
-    }
+        .header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2a9d8f;
+            display: flex;
+            align-items: center;
+        }
 
-    .header .logo span {
-    margin-left: 8px;
-    }
+            .header .logo span {
+                margin-left: 8px;
+            }
 
-    .header nav a {
-    margin: 0 15px;
-    text-decoration: none;
-    color: #333;
-    font-size: 16px;
-    }
+        .header nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+        }
 
-    .header nav a:hover {
-    color: #2a9d8f;
-    }
+            .header nav a:hover {
+                color: #2a9d8f;
+            }
 
     .container {
-    max-width: 1200px;
-    margin: 50px auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        max-width: 1200px;
+        margin: 50px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     .shoe-details {
-    display: flex;
-    gap: 30px;
+        display: flex;
+        gap: 30px;
     }
 
     .shoe-image {
-    flex: 1;
+        flex: 1;
     }
 
-    .shoe-image img {
-    max-width: 100%;
-    border-radius: 8px;
-    }
+        .shoe-image img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
 
     .shoe-info {
-    flex: 2;
+        flex: 2;
     }
 
-    .shoe-info h1 {
-    font-size: 28px;
-    margin-bottom: 10px;
-    }
+        .shoe-info h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
 
-    .shoe-info .price {
-    font-size: 24px;
-    color: #2a9d8f;
-    margin: 10px 0;
-    }
+        .shoe-info .price {
+            font-size: 24px;
+            color: #2a9d8f;
+            margin: 10px 0;
+        }
 
-    .shoe-info .rating {
-    margin: 10px 0;
-    }
+        .shoe-info .rating {
+            margin: 10px 0;
+        }
 
-    .shoe-info .rating span {
-    font-size: 18px;
-    margin-left: 5px;
-    }
+            .shoe-info .rating span {
+                font-size: 18px;
+                margin-left: 5px;
+            }
 
-    .shoe-info .description {
-    margin-top: 20px;
-    line-height: 1.6;
-    }
+        .shoe-info .description {
+            margin-top: 20px;
+            line-height: 1.6;
+        }
 
-    .shoe-info .add-to-cart {
-    margin-top: 20px;
-    }
+        .shoe-info .add-to-cart {
+            margin-top: 20px;
+        }
 
-    .shoe-info .add-to-cart button {
-    background-color: #2a9d8f;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    }
+            .shoe-info .add-to-cart button {
+                background-color: #2a9d8f;
+                color: #fff;
+                border: none;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                border-radius: 5px;
+            }
 
-    .shoe-info .add-to-cart button:hover {
-    background-color: #21867a;
-    }
+                .shoe-info .add-to-cart button:hover {
+                    background-color: #21867a;
+                }
 
     .reviews {
-    margin-top: 40px;
+        margin-top: 40px;
     }
 
-    .reviews h2 {
-    margin-bottom: 20px;
-    }
+        .reviews h2 {
+            margin-bottom: 20px;
+        }
 
     .review {
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #ddd;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #ddd;
     }
 
-    .review .reviewer {
-    font-weight: bold;
-    }
+        .review .reviewer {
+            font-weight: bold;
+        }
 
-    .review .comment {
-    margin-top: 10px;
-    }
+        .review .comment {
+            margin-top: 10px;
+        }
 </style>
 
 
@@ -147,11 +147,12 @@
     <div class="shoe-details">
 
         <div class="shoe-image">
-            <img src="https://via.placeholder.com/500" alt="Nike Running Shoe">
+            <img src=@Model.ImageURL alt="Nike Running Shoe" style="height:40vh;object-fit:fill;">
         </div>
         <div class="shoe-info">
 
-            @if(Model==null){
+            @if (Model == null)
+            {
                 <h1>Kem Bhai???</h1>
             }
 
@@ -166,7 +167,7 @@
                 @Model.Description
             </p>
             <div class="add-to-cart">
-                <button>Add to Cart</button>
+                <button> <a id="cLink" href="javascript:void(0);" style="text-decoration:none;color:white;">  Add to Cart</a> </button>
             </div>
         </div>
     </div>
@@ -195,9 +196,66 @@
 
             <div class="review">
                 <div class="reviewer">Mark Wilson</div>
-            <div class="rating">⭐⭐⭐⭐⭐</div>
-            <div class="comment">Great value for money. Highly recommended!</div>
-        </div>
+                <div class="rating">⭐⭐⭐⭐⭐</div>
+                <div class="comment">Great value for money. Highly recommended!</div>
+            </div>
         }
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    document.getElementById("cLink").addEventListener("click", function () {
+        // Helper function to get cookie value by name
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+        // Get userId from the cookie
+        const userId = getCookie("userid");
+        if (!userId) {
+            alert("User is not logged in.");
+            return;
+        }
+
+        // Fetch model data from Razor syntax
+        const shoeId = @Model.ShoeId;
+        const quantity = 1;
+
+        // Check if user is logged in
+        fetch('/Account/IsUserLoggedIn')
+            .then(response => response.json())
+            .then(data => {
+                if (data.isLoggedIn) {
+                    // Send POST request to the API
+                    $.ajax({
+                        url: "https://localhost:44328/api/Cart", // API endpoint
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            UserId: userId,
+                            ShoeId: shoeId,
+                            Quantity: quantity,
+                        }),
+                        success: function (response) {
+                            alert(response.Message || "Item added to cart successfully!");
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("XHR:", xhr);
+                            console.error("Status:", status);
+                            console.error("Error:", error);
+                            alert(`Error: ${xhr.status} - ${xhr.responseText}`);
+                        }
+                    });
+                } else {
+                    // User is not logged in
+                    alert("Please log in first");
+                }
+            })
+            .catch(error => {
+                console.error("Error checking login status:", error);
+            });
+    });
+</script>

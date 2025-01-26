@@ -2,16 +2,16 @@
 
 <br/>
 <br/>
-<div class="mt-5">
+<div class="mt-5 container">
 
     <div class="card card-registration card-registration-2" style="border-radius: 15px;">
         <div class="card-body p-0">
             <div class="row g-0">
                 <div class="col">
                     <div class="p-5">
-                        <div class="d-flex justify-content-between align-items-center mb-5">
+                        <div class="d-flex justify-content-between align-items-center mb-5 px-3">
                             <h1 class="fw-bold mb-0">Shopping Cart</h1>
-                            <h6 class="mb-0 text-muted fs-3">3 items</h6>
+                            <h6 class="mb-0 text-muted fs-3">@Model.Count() items</h6>
                         </div>
                         <hr class="my-4">
 
@@ -28,8 +28,8 @@
                         {
 
                         <div class="row mb-4 d-flex justify-content-between align-items-center">
-                            <div class="col-md-2 col-lg-2 col-xl-2">
-                                <img src=@cart.ShoeImageURL class="img-fluid rounded-3" alt="Shoe" style="height:25vh;width:10vw;">
+                            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto">
+                                <img src=@cart.ShoeImageURL class="img-fluid rounded-3 ms-5" alt="Shoe" style="height:22vh;width:8vw;">
                             </div>
                             <div class="col-md-3 col-lg-3 col-xl-3">
                                 <h6 class="text-muted fs-1">@cart.ShoeName</h6>
@@ -39,22 +39,22 @@
                             <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                                 <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2"
                                         onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                    <i class="fas fa-minus fs-5"></i>
+                                    <i class="fas fa-minus fs-6"></i>
                                 </button>
 
                                 <input id="form1" min="0" name="quantity" value="1" type="number"
-                                       class="form-control form-control-sm fs-3" />
+                                       class="form-control form-control-sm fs-4" />
 
                                 <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2"
                                         onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                    <i class="fas fa-plus fs-5"></i>
+                                    <i class="fas fa-plus fs-6"></i>
                                 </button>
                             </div>
                             <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                                 <h6 class="mb-0 fs-2">$ @cart.ShoePrice</h6>
                             </div>
-                            <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                        <a asp-controller="Cart" asp-action="Delete" asp-route-CartId="@cart.CartItemId" class="text-muted"><i class="fas fa-times fs-3"></i></a>
+                            <div class="col-md-1 col-lg-1 col-xl-1 text-center">
+                                 <a asp-controller="Cart" asp-action="Delete" asp-route-CartId="@cart.CartItemId" class="text-muted "><i class="fas fa-times fs-3"></i></a>
                             </div>
                         </div>
 
