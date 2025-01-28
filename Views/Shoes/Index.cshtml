@@ -46,6 +46,8 @@
         <div class="ms-4 col-3 d-flex justify-content-start align-items-center">
             <span style="font-size:1.5em; font-weight:500;">Category : &nbsp;</span>
             <select id="categoryDropdown" style="font-size:1.5em; font-weight:500;" class="px-2 py-1 border border-3 border-success">
+                <option value="0">Select shoe category</option>
+
                 @foreach (var item in ViewBag.ShoesDropdown as List<SelectListItem>)
                 {
                     <option value="@item.Value">@item.Text</option>
@@ -135,7 +137,7 @@
                 // Clear search box when category is selected
                 $('#searchBox').val('');
                 // console.log("Search box cleared");
-
+                if(categoryId== "0"){window.location.reload()}
                 if (categoryId) {
                     $.get('/Shoes/GetShoesByCategory', { id: categoryId }, function (result) {
                         // console.log("Category results loaded");

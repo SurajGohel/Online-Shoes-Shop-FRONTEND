@@ -6,6 +6,31 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
+@if (TempData["CategoryAdded"] != null)
+{
+    <div>Good</div>
+    <script>
+        Swal.fire({
+            title: 'Success!',
+            text: '@TempData["ProductDeleted"]',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    </script>
+}
+@if (TempData["CategoryNotAdded"] != null)
+{
+    <script>
+        Swal.fire({
+            title: 'Error!',
+            text: '@TempData["ProductNotDeleted"]',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+
+    </script>
+}
+
 <h1>GetAll Shoes</h1>
 
 <p>

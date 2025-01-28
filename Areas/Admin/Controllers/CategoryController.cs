@@ -70,9 +70,13 @@ namespace Online_Shoes_Shop.Areas.Admin.Controllers
                 {
                     response = await _httpClient.PutAsync($"api/Categories/{cat.CategoryId}", content);
                 }
-                
+
                 if (response.IsSuccessStatusCode)
+                {
+                    TempData["CategoryAdded"] = "Category Added";
+
                     return RedirectToAction("GetAll");
+                }
             }
             return View("Add", cat);
         }
