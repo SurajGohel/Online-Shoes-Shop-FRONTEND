@@ -1,4 +1,29 @@
-﻿<!DOCTYPE html>
+﻿@using Newtonsoft.Json
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    // Retrieve session data
+    var cartItemsJson = HttpContextAccessor.HttpContext.Session.GetString("CartItems");
+    var cartItems = cartItemsJson != null ? JsonConvert.DeserializeObject<List<CartModel>>(cartItemsJson) : new List<CartModel>();
+    var totalPrice = cartItems.Sum(item => item.ShoePrice);
+}
+@{
+    Layout = null;
+}
+@* @if (cartItems.Any()) *@
+@* { *@
+@*     <ul> *@
+@*         @foreach (var item in cartItems) *@
+@*         { *@
+@*             <li>@item.ShoeName</li> *@
+@*         } *@
+@*     </ul> *@
+@* } *@
+@* else *@
+@* { *@
+@*     <p>No items in the cart.</p> *@
+@* } *@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,6 +40,7 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+
         }
 
         .checkout-container {
@@ -136,7 +162,7 @@
         }
 
         /* Responsive Design */
-        @media (max-width: 768px) {
+        @@media (max-width: 768px) {
             .checkout-container
 
         {
@@ -160,22 +186,30 @@
         <div class="order-summary">
             <h2>Order Summary</h2>
             <ul>
-                <li>
-                    <span>Running Shoes x 1</span>
-                    <span>$120.00</span>
+                @foreach (var item in cartItems)
+                {
+                   <li> 
+                     <span>@item.ShoeName x @item.Quantity</span> 
+                     <span>$@item.ShoePrice</span> 
                 </li>
-                <li>
-                    <span>Casual Shoes x 2</span>
-                    <span>$180.00</span>
-                </li>
-                <li>
-                    <span>Shipping</span>
-                    <span>$10.00</span>
-                </li>
+                }
+                @* <li> *@
+                @*     <span>Running Shoes x 1</span> *@
+                @*     <span>$120.00</span> *@
+                @* </li> *@
+                @* <li> *@
+                @*     <span>Casual Shoes x 2</span> *@
+                @*     <span>$180.00</span> *@
+                @* </li> *@
+                @* <li> *@
+                @*     <span>Shipping</span> *@
+                @*     <span>$10.00</span> *@
+                @* </li> *@
             </ul>
             <div class="total">
                 <span>Total</span>
-                <span>$310.00</span>
+                @* <span>$310.00</span> *@
+                <span>$@totalPrice</span>
             </div>
         </div>
 

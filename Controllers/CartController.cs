@@ -36,6 +36,9 @@ namespace Online_Shoes_Shop.Controllers
                     //Console.WriteLine("API Response Data: " + data); // Log the raw JSON response
                     var shoes = JsonConvert.DeserializeObject<List<CartModel>>(data);
                     //Console.WriteLine("Deserialized Shoes: " + JsonConvert.SerializeObject(shoes)); // Log the deserialized data
+                    HttpContext.Session.SetString("TempTest","Data");
+
+                    HttpContext.Session.SetString("CartItems", JsonConvert.SerializeObject(shoes));
                     return View( shoes);
                     //return View();
                 }
@@ -44,7 +47,9 @@ namespace Online_Shoes_Shop.Controllers
             {
                 // Log the exception
                 //Console.WriteLine(ex.Message);
+                HttpContext.Session.Remove("CartItems");
             }
+            HttpContext.Session.Remove("CartItems");
             return View(Enumerable.Empty<ShoesModel>());
             //return PartialView("_ShoesList", Enumerable.Empty<ShoesModel>()); // Return an empty view if something goes wrong
         }
@@ -56,5 +61,17 @@ namespace Online_Shoes_Shop.Controllers
             return RedirectToAction("GetCartItem");
         }
 
+        //[HttpGet]
+        //public  IActionResult GoToCheckOut(int CartId)
+        //{
+        //    //var response = await _httpClient.DeleteAsync($"api/Cart/{CartId}");
+        //    return View("Index", "Order");
+        //}
+
+        
+        public IActionResult GoToCheckOut()
+        {
+            return RedirectToAction("Index", "Order");
+        }
     }
 }

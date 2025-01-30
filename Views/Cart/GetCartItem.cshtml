@@ -39,15 +39,15 @@
 
                                     <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                                         <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2"
-                                                onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                                             <i class="fas fa-minus fs-6"></i>
                                         </button>
 
-                                        <input id="form1" min="0" name="quantity" value="1" type="number"
-                                               class="form-control form-control-sm fs-4" />
+                                        <input id="form1" min="1" max="5" name="quantity" value="1" type="number"
+                                        class="form-control form-control-sm fs-4" />
 
                                         <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2"
-                                                onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                                             <i class="fas fa-plus fs-6"></i>
                                         </button>
                                     </div>
@@ -67,7 +67,15 @@
                             }
 
                         }
-
+                        @if (@Model.Count() != 0) { 
+                        <div style="display:flex;justify-content:center;align-items:center;">
+                            <button class="btn btn-primary">
+                                <a style="color:white;text-decoration:none;" asp-controller="Cart" asp-action="GoToCheckOut">
+                                    Check Out
+                                </a>
+                            </button>
+                        </div>
+                        }
                     </div>
                 </div>
             </div>

@@ -6,6 +6,8 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
@@ -22,6 +24,14 @@ builder.Services.AddAuthentication("CookieAuth")
 
 // Add Authorization
 builder.Services.AddAuthorization();
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromDays(30); // Session expires after 30 days of inactivity
+    options.Cookie.HttpOnly = true; // Ensures the cookie is only accessible via HTTP (not JavaScript)
+    options.Cookie.IsEssential = true; // Marks the cookie as essential for the application
+});
 
 var app = builder.Build();
 
@@ -42,6 +52,8 @@ app.UseMiddleware<CookieAuthenticationMiddleware>();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseSession();
 
 app.UseEndpoints(endpoints =>
 {
