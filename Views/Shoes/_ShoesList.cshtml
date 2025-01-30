@@ -12,22 +12,25 @@ else
 {
     foreach (var shoes in Model)
     {
-        
-        <div id="getDetail" class="box">
-            <div class="ms-1">@shoes.CategoryName</div>
+
+        <div id="getDetail" class="box" style="width:19vw; position: relative;">
             <a style="text-decoration:none;" asp-controller="Shoes" asp-action="ShoeDetail"
                asp-route-ShoeId="@shoes.ShoeId">
-            <div class="image">
-                <img src="~/images/product-1.png" alt="">
-                    @* <img src="@shoes.ImageURL" alt="NAthi bhai aama"> *@
-            </div>
-            <div class="content">
-                <h3>@shoes.Name</h3>
-                <div class="price">$@shoes.Price</div>
-                @* Add other content here if needed *@
-            </div>
+                <div class="image-container bg-primary" style="position: relative;">
+                    <!-- Category Name on Image -->
+                    <div class="category-label">@shoes.CategoryName</div>
+
+                    <div class="image" style="background:white;">
+                        <img style="object-fit:fill;" src="@shoes.ImageURL" alt="NAthi bhai aama">
+                    </div>
+                </div>
+                <div class="content">
+                    <h3>@shoes.Name</h3>
+                    <div class="price">$@shoes.Price</div>
+                </div>
             </a>
         </div>
+
         
     }
 }
@@ -35,3 +38,18 @@ else
 <script>
 
 </script>
+
+<style>
+    .category-label {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: rgba(0, 0, 0, 0.7); /* Dark transparent background */
+        color: white;
+        padding: 5px 10px;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 5px;
+    }
+
+</style>

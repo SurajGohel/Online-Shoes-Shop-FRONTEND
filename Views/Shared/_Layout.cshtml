@@ -1,187 +1,200 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Online_Shoes_Shop</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
-    @* <link rel="stylesheet" href="~/css/style.css"> *@
-    <link rel="stylesheet" href="~/Online_Shoes_Shop.styles.css" asp-append-version="true" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - Online_Shoes_Shop</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+	@* <link rel="stylesheet" href="~/css/style.css"> *@
+	<link rel="stylesheet" href="~/Online_Shoes_Shop.styles.css" asp-append-version="true" />
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Bootstrap Icons -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-    <!-- font awesome cdn link  -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <!-- swiper js cdn -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <!-- custom css file link  -->
-    
+	<!-- font awesome cdn link  -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	<!-- swiper js cdn -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+	<!-- custom css file link  -->
+
 </head>
 <body>
 
-    <header class="header">
+	<header class="header">
 
-        <a asp-controller="Home" asp-action="Index" class="logo"> <i class="fas fa-shoe-prints"></i> shoes</a>
+		<a asp-controller="Home" asp-action="Index" class="logo"> <i class="fas fa-shoe-prints"></i> shoes</a>
 
-        <nav class="navbar">
-            <a asp-controller="Shoes" asp-action="Index">home</a>
-            <a href="#contact">contact</a>
-            <a href="#about-us">About</a>
-            @if (Context.Request.Cookies["role"]=="Admin"){
-                <a  asp-controller="Admin" asp-action="Index">Admin</a>
-            }
-            <a asp-controller="User" asp-action="Index">User</a>
+		<nav class="navbar">
+			<a asp-controller="Shoes" asp-action="Index">home</a>
+			<a href="#contact">contact</a>
+			<a href="#about-us">About</a>
+			@if (Context.Request.Cookies["role"] == "Admin")
+			{
+				<a asp-controller="Admin" asp-action="Index">Admin</a>
+			}
+			<a asp-controller="User" asp-action="Index">User</a>
 
-        </nav>
+		</nav>
 
-        <div class="icons">
-            <div id="menu-btn" class="fas fa-bars"></div>
-            @* <div id="search-btn" class="fas fa-search"></div> *@
+		<div class="icons">
+			<div id="menu-btn" class="fas fa-bars"></div>
+			@* <div id="search-btn" class="fas fa-search"></div> *@
 
-            <a id="cartLink" class="fas fa-shopping-cart" href="javascript:void(0);"></a>
-
-
-            <div class="profile-dropdown">
-                <a href="#" class="fas fa-user"></a>
-                <div class="dropdown-content">
-                    @if (User.Identity.IsAuthenticated && Context.Request.Cookies["role"]=="User")
-                    {
-                        <span>Hello, @User.Identity.Name!</span>
-                        <a asp-controller="Account" asp-action="Logout" id="logoutLink">Logout</a>
-                        <a>Orders</a>
-
-                    }
-                    else
-                    {
-                        <a asp-controller="Account" asp-action="Login">Login</a>
-                        <a asp-controller="Account" asp-action="Register">Register</a>
-                    }
-                </div>
-            </div>
-
-            @* <a href="#" class="fas fa-user"></a> *@
-            @* <a href="#" class="fas fa-heart"></a> *@
-        </div>
-
-        <form action="" class="search-form">
-            <input type="text" name="" id="searchBox" placeholder="search shoes here...">
-            <label class="fas fa-search"></label>
-        </form>
-
-    </header>
-
-    <!-- home section ends -->
-
-    <div class="container-fluid">
-        <div class="row min-vh-100">
-            <div class="col mt-5">
-                @RenderBody()
-            </div>
-
-        </div>
-    </div>
-
-    <!-- contact section starts -->
-        <section class="footer " id="about-us">
-
-            <div class="box-container">
-
-                <div class="box">
-                    <h3>about us</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore magnam.</p>
-                </div>
-
-                <div class="box">
-                    <h3>our services</h3>
-                    <a href="#">pricing</a>
-                    <a href="#">discount</a>
-                    <a href="#">refund policy</a>
-                    <a href="#">shipping mode</a>
-                </div>
-
-                <div class="box">
-                    <h3>quick links</h3>
-                    <a href="#">home</a>
-                    <a href="#">products</a>
-                    <a href="#">featured</a>
-                    <a href="#">review</a>
-                </div>
-
-                <div class="box">
-                    <h3>social links</h3>
-                    <a href="#"> <i class="fab fa-facebook-f"></i> facebook</a>
-                    <a href="#"> <i class="fab fa-twitter"></i> twitter</a>
-                    <a href="#"> <i class="fab fa-instagram"></i> instagram</a>
-                    <a href="#"> <i class="fab fa-linkedin"></i> linkedin</a>
-                </div>
-
-            </div>
-
-        </section>
-
-        <section class="credit">
-            &copy; copyright 2025 by ShoeStore
-        </section>
-    
-
-    <!-- contact section ends -->
-
-    
+			<a id="cartLink" class="fas fa-shopping-cart" href="javascript:void(0);"></a>
 
 
-    <!-- swiper js cdn link -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-    @Html.Raw("<script src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js'></script>")
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script><!-- custom js file link  -->
-    <script src="~/js/script.js" asp-append-version="true"></script>
-    
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+			<div class="profile-dropdown">
+				<a href="#" class="fas fa-user"></a>
+				<div class="dropdown-content">
+					@if (User.Identity.IsAuthenticated && Context.Request.Cookies["role"] == "User")
+					{
+						<span>Hello, @User.Identity.Name!</span>
+						<a asp-controller="Account" asp-action="Logout" id="logoutLink">Logout</a>
+						<a>Orders</a>
 
-    @* sweetalerts *@
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+					}
+					else
+					{
+						<a asp-controller="Account" asp-action="Login">Login</a>
+						<a asp-controller="Account" asp-action="Register">Register</a>
+					}
+				</div>
+			</div>
+
+			@* <a href="#" class="fas fa-user"></a> *@
+			@* <a href="#" class="fas fa-heart"></a> *@
+		</div>
+
+		<form action="" class="search-form">
+			<input type="text" name="" id="searchBox" placeholder="search shoes here...">
+			<label class="fas fa-search"></label>
+		</form>
+
+	</header>
+
+	<!-- home section ends -->
+
+	<div class="container-fluid">
+		<div class="row min-vh-100">
+			<div class="col mt-5">
+				@RenderBody()
+			</div>
+
+		</div>
+	</div>
+
+	<!-- contact section starts -->
+	<section class="footer " id="about-us">
+
+		<div class="box-container">
+
+			<div class="box">
+				<h3>about us</h3>
+				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore magnam.</p>
+			</div>
+
+			<div class="box">
+				<h3>our services</h3>
+				<a href="#">pricing</a>
+				<a href="#">discount</a>
+				<a href="#">refund policy</a>
+				<a href="#">shipping mode</a>
+			</div>
+
+			<div class="box">
+				<h3>quick links</h3>
+				<a href="#">home</a>
+				<a href="#">products</a>
+				<a href="#">featured</a>
+				<a href="#">review</a>
+			</div>
+
+			<div class="box">
+				<h3>social links</h3>
+				<a href="#"> <i class="fab fa-facebook-f"></i> facebook</a>
+				<a href="#"> <i class="fab fa-twitter"></i> twitter</a>
+				<a href="#"> <i class="fab fa-instagram"></i> instagram</a>
+				<a href="#"> <i class="fab fa-linkedin"></i> linkedin</a>
+			</div>
+
+		</div>
+
+	</section>
+
+	<section class="credit">
+		&copy; copyright 2025 by ShoeStore
+	</section>
 
 
-    @await RenderSectionAsync("Scripts", required: false)
+	<!-- contact section ends -->
+	<!-- swiper js cdn link -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+	@Html.Raw("<script src='https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js'></script>")
+	<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script><!-- custom js file link  -->
+	<script src="~/js/script.js" asp-append-version="true"></script>
+
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+
+	@* sweetalerts *@
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
 
 <script>
-        $(document).ready(function () {
-        // When the logout link is clicked
-        $("#logoutLink").on("click", function (e) {
-            // Prevent the default behavior (navigation)
-            e.preventDefault();
+		$(document).ready(function () {
+		// When the logout link is clicked
+		$("#logoutLink").on("click", function (e) {
+			// Prevent the default behavior (navigation)
+			e.preventDefault();
 
-            // Show a confirmation dialog
-            if (confirm("Are you sure you want to logout?")) {
-                // If confirmed, redirect to the logout action
-                window.location.href = $(this).attr("href");
-            }
-            // If not confirmed, do nothing (just close the dialog)
-        });
-    });
+			// Show a confirmation dialog
+			if (confirm("Are you sure you want to logout?")) {
+				// If confirmed, redirect to the logout action
+				window.location.href = $(this).attr("href");
+			}
+			// If not confirmed, do nothing (just close the dialog)
+		});
+	});
 
-    document.getElementById("cartLink").addEventListener("click", function () {
-        fetch('/Account/IsUserLoggedIn')
-            .then(response => response.json())
-            .then(data => {
-                if (data.isLoggedIn) {
-                    // User is logged in, navigate to the cart
-                    window.location.href = '/Cart/GetCartItem';
-                } else {
-                    // User is not logged in, show login prompt
-                    alert("Please log in to view your cart.");
-                }
-            })
-            .catch(error => {
-                console.error("Error checking login status:", error);
-            });
-    });
+	document.getElementById("cartLink").addEventListener("click", function () {
+		fetch('/Account/IsUserLoggedIn')
+			.then(response => response.json())
+			.then(data => {
+				if (data.isLoggedIn) {
+
+					function getCookie(name) {
+			const value = `; ${document.cookie}`;
+			const parts = value.split(`; ${name}=`);
+			if (parts.length === 2) return parts.pop().split(';').shift();
+		}
+
+		// Get userId from the cookie
+		const role = getCookie("role");
+
+			if(role=="User"){
+					// User is logged in, navigate to the cart
+					window.location.href = '/Cart/GetCartItem';
+			}
+			else{
+					alert("Admin Cannot Access Cart")
+
+			}
+				} else {
+					// User is not logged in, show login prompt
+					alert("Please log in to view your cart.");
+				}
+			})
+			.catch(error => {
+				console.error("Error checking login status:", error);
+			});
+	});
 </script>

@@ -1,0 +1,258 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Online Shoe Shop</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .checkout-container {
+            max-width: 1000px;
+            width: 100%;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+        }
+
+        /* Left Section - Order Summary */
+        .order-summary {
+            flex: 1;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            padding: 30px;
+        }
+
+            .order-summary h2 {
+                margin-top: 0;
+                font-size: 24px;
+                font-weight: 600;
+            }
+
+            .order-summary ul {
+                list-style: none;
+                padding: 0;
+            }
+
+                .order-summary ul li {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 15px;
+                    font-size: 16px;
+                }
+
+            .order-summary .total {
+                font-size: 20px;
+                font-weight: 600;
+                border-top: 1px solid rgba(255, 255, 255, 0.3);
+                padding-top: 15px;
+                margin-top: 20px;
+            }
+
+        /* Right Section - Checkout Form */
+        .checkout-form {
+            flex: 1;
+            padding: 30px;
+        }
+
+            .checkout-form h2 {
+                margin-top: 0;
+                font-size: 24px;
+                font-weight: 600;
+                color: #333;
+            }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+            .form-group label {
+                display: block;
+                font-size: 14px;
+                font-weight: 500;
+                color: #555;
+                margin-bottom: 5px;
+            }
+
+            .form-group input, .form-group select {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid #ddd;
+                border-radius: 6px;
+                font-size: 14px;
+                outline: none;
+                transition: border-color 0.3s ease;
+                box-sizing: border-box; /* Ensure padding and border are included in the width */
+            }
+
+                .form-group input:focus, .form-group select:focus {
+                    border-color: #6a11cb;
+                }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap; /* Allow wrapping */
+        }
+
+            .form-row .form-group {
+                flex: 1 1 calc(50% - 15px); /* Allow each form group to take 50% of the row width */
+            }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: #6a11cb;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+            .btn:hover {
+                background: #2575fc;
+            }
+
+        .validation-message {
+            color: #ff4d4d;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .checkout-container
+
+        {
+            flex-direction: column;
+        }
+
+        .order-summary, .checkout-form {
+            flex: none;
+        }
+
+        .form-row .form-group {
+            flex: 1 1 100%; /* Full width on smaller screens */
+        }
+
+        }
+    </style>
+</head>
+<body>
+    <div class="checkout-container">
+        <!-- Left Section - Order Summary -->
+        <div class="order-summary">
+            <h2>Order Summary</h2>
+            <ul>
+                <li>
+                    <span>Running Shoes x 1</span>
+                    <span>$120.00</span>
+                </li>
+                <li>
+                    <span>Casual Shoes x 2</span>
+                    <span>$180.00</span>
+                </li>
+                <li>
+                    <span>Shipping</span>
+                    <span>$10.00</span>
+                </li>
+            </ul>
+            <div class="total">
+                <span>Total</span>
+                <span>$310.00</span>
+            </div>
+        </div>
+
+        <!-- Right Section - Checkout Form -->
+        <div class="checkout-form">
+            <h2>Checkout</h2>
+            <form id="checkout-form">
+                <!-- Customer Information -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fullname">Full Name</label>
+                        <input type="text" id="fullname" name="fullname" required>
+                        <span class="validation-message">Full Name is required.</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                        <span class="validation-message">Email is required.</span>
+                    </div>
+                </div>
+
+                <!-- Shipping Address -->
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="address" required>
+                    <span class="validation-message">Address is required.</span>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" id="city" name="city" required>
+                        <span class="validation-message">City is required.</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State</label>
+                        <input type="text" id="state" name="state" required>
+                        <span class="validation-message">State is required.</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="zip">Pincode</label>
+                        <input type="text" id="zip" name="zip" required>
+                        <span class="validation-message">Pincode is required.</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="mobile">Mobile Number</label>
+                        <input type="text" id="mobile" name="mobile" required>
+                        <span class="validation-message">Mobile Number is required.</span>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn">Place Order</button>
+            </form>
+
+        </div>
+    </div>
+
+    <script>
+        // Basic form validation
+        document.getElementById('checkout-form').addEventListener('submit', function(event) {
+            let isValid = true;
+            const inputs = document.querySelectorAll('#checkout-form input[required]');
+
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.nextElementSibling.style.display = 'block';
+                } else {
+                    input.nextElementSibling.style.display = 'none';
+                }
+            });
+
+            if (!isValid) {
+                event.preventDefault();
+                alert('Please fill out all required fields.');
+            }
+        });
+    </script>
+</body>
+</html>
