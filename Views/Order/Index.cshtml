@@ -5,7 +5,7 @@
     // Retrieve session data
     var cartItemsJson = HttpContextAccessor.HttpContext.Session.GetString("CartItems");
     var cartItems = cartItemsJson != null ? JsonConvert.DeserializeObject<List<CartModel>>(cartItemsJson) : new List<CartModel>();
-    var totalPrice = cartItems.Sum(item => item.ShoePrice);
+    var totalPrice = cartItems.Sum(item => item.ShoePrice*item.Quantity);
 }
 @{
     Layout = null;
@@ -189,10 +189,14 @@
                 @foreach (var item in cartItems)
                 {
                    <li> 
-                     <span>@item.ShoeName x @item.Quantity</span> 
-                     <span>$@item.ShoePrice</span> 
+                     <span>@item.ShoeName x @item.Quantity</span>
+                        <span>$@(item.ShoePrice * item.Quantity)</span>
                 </li>
                 }
+                <li>
+                    <span>Shipping Charges</span>
+                    <span>Free</span>
+                </li>
                 @* <li> *@
                 @*     <span>Running Shoes x 1</span> *@
                 @*     <span>$120.00</span> *@

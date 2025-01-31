@@ -137,6 +137,27 @@
         .review .comment {
             margin-top: 10px;
         }
+
+    .add-to-cart select {
+        padding: 8px 12px;
+        border-radius: 5px;
+        border: 1px solid #2a9d8f;
+        background-color: #fff;
+        color: #333;
+        font-size: 16px;
+        cursor: pointer;
+        outline: none;
+        transition: border-color 0.3s ease;
+    }
+
+        .add-to-cart select:hover {
+            border-color: #21867a;
+        }
+
+        .add-to-cart select:focus {
+            border-color: #2a9d8f;
+            box-shadow: 0 0 5px rgba(42, 157, 143, 0.5);
+        }
 </style>
 
 
@@ -167,7 +188,15 @@
                 @Model.Description
             </p>
             <div class="add-to-cart">
-                <button> <a id="cLink" href="javascript:void(0);" style="text-decoration:none;color:white;">  Add to Cart</a> </button>
+                <select id="quantity" name="quantity" style="padding: 5px; border-radius: 5px; border: 1px solid #2a9d8f; margin-right: 10px;">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+                <button>
+                    <a id="cLink" href="javascript:void(0);" style="text-decoration:none;color:white;">Add to Cart</a>
+                </button>
             </div>
         </div>
     </div>
@@ -222,40 +251,46 @@
 
         // Fetch model data from Razor syntax
         const shoeId = @Model.ShoeId;
-        const quantity = 1;
+        const quantity = parseInt(document.getElementById("quantity").value, 10);
 
-        // Check if user is logged in
-        fetch('/Account/IsUserLoggedIn')
+        // Step 1: Check if the item is already in the cart
+        fetch(`https://localhost:44328/api/Cart/CheckItem/${userId}/${shoeId}`)
             .then(response => response.json())
             .then(data => {
-                if (data.isLoggedIn) {
-                    // Send POST request to the API
-                    $.ajax({
-                        url: "https://localhost:44328/api/Cart", // API endpoint
-                        type: "POST",
-                        contentType: "application/json",
-                        data: JSON.stringify({
-                            UserId: userId,
-                            ShoeId: shoeId,
-                            Quantity: quantity,
-                        }),
-                        success: function (response) {
-                            alert(response.Message || "Item added to cart successfully!");
-                        },
-                        error: function (xhr, status, error) {
-                            console.error("XHR:", xhr);
-                            console.error("Status:", status);
-                            console.error("Error:", error);
-                            alert(`Error: ${xhr.status} - ${xhr.responseText}`);
-                        }
-                    });
+                if (data.itemExists) {
+                    // Item is already in the cart
+                    alert("This item is already in your cart.");
                 } else {
-                    // User is not logged in
-                    alert("Please log in first");
+                    // Item is NOT in the cart, proceed to add it
+                    addToCart(userId, shoeId, quantity);
                 }
             })
             .catch(error => {
-                console.error("Error checking login status:", error);
+                console.error("Error checking item in cart:", error);
             });
     });
+
+    // Function to add item to the cart
+    function addToCart(userId, shoeId, quantity) {
+        $.ajax({
+            url: "https://localhost:44328/api/Cart",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                UserId: userId,
+                ShoeId: shoeId,
+                Quantity: quantity,
+            }),
+            success: function (response) {
+                alert(response.Message || "Item added to cart successfully!");
+            },
+            error: function (xhr, status, error) {
+                console.error("XHR:", xhr);
+                console.error("Status:", status);
+                console.error("Error:", error);
+                alert(`Error: ${xhr.status} - ${xhr.responseText}`);
+            }
+        });
+    }
 </script>
+
