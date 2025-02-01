@@ -21,7 +21,6 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 	<!-- custom css file link  -->
 
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 </head>
 <body>
 
@@ -37,7 +36,8 @@
 			{
 				<a asp-controller="Admin" asp-action="Index">Admin</a>
 			}
-			<a asp-controller="User" asp-action="Index">User</a>
+			@* <a asp-controller="User" asp-action="Index">User</a> *@
+			<a asp-controller="Order" asp-action="UserOrders">Orders</a>
 
 		</nav>
 
@@ -55,7 +55,7 @@
 					{
 						<span>Hello, @User.Identity.Name!</span>
 						<a asp-controller="Account" asp-action="Logout" id="logoutLink">Logout</a>
-						<a>Orders</a>
+						
 
 					}
 					else
@@ -131,6 +131,7 @@
 	</section>
 
 
+
 	<!-- contact section ends -->
 	<!-- swiper js cdn link -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
@@ -150,52 +151,63 @@
 </body>
 </html>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
-		$(document).ready(function () {
-		// When the logout link is clicked
-		$("#logoutLink").on("click", function (e) {
-			// Prevent the default behavior (navigation)
-			e.preventDefault();
+	$(document).ready(function () {
+		toastr.options = {
+			positionClass: "toast-top-center",
+			timeOut: 3000,
+			closeButton: true,
+			progressBar: true,
+			preventDuplicates: true
+		};
 
-			// Show a confirmation dialog
+		// Logout confirmation
+		$("#logoutLink").on("click", function (e) {
+			e.preventDefault();
 			if (confirm("Are you sure you want to logout?")) {
-				// If confirmed, redirect to the logout action
 				window.location.href = $(this).attr("href");
 			}
-			// If not confirmed, do nothing (just close the dialog)
 		});
-	});
 
-	document.getElementById("cartLink").addEventListener("click", function () {
-		fetch('/Account/IsUserLoggedIn')
-			.then(response => response.json())
-			.then(data => {
-				if (data.isLoggedIn) {
+		// Cart link login check
+		$("#cartLink").on("click", function () {
+			checkLoginStatus('/Cart/GetCartItem', "Admin Cannot Access Cart");
+		});
 
-					function getCookie(name) {
+		// Orders link login check
+		$("a:contains('Orders')").on("click", function (e) {
+			e.preventDefault();
+			checkLoginStatus('/Order/UserOrders', "Admin Cannot Access Orders");
+		});
+
+		// Function to check login status
+		function checkLoginStatus(redirectUrl, adminMessage) {
+			fetch('/Account/IsUserLoggedIn')
+				.then(response => response.json())
+				.then(data => {
+					if (data.isLoggedIn) {
+						const role = getCookie("role");
+						if (role === "User") {
+							window.location.href = redirectUrl;
+						} else {
+							alert(adminMessage);
+						}
+					} else {
+						toastr.warning("Please log in to continue.");
+					}
+				})
+				.catch(error => {
+					console.error("Error checking login status:", error);
+				});
+		}
+
+		// Function to get cookie value
+		function getCookie(name) {
 			const value = `; ${document.cookie}`;
 			const parts = value.split(`; ${name}=`);
 			if (parts.length === 2) return parts.pop().split(';').shift();
 		}
-
-		// Get userId from the cookie
-		const role = getCookie("role");
-
-			if(role=="User"){
-					// User is logged in, navigate to the cart
-					window.location.href = '/Cart/GetCartItem';
-			}
-			else{
-					alert("Admin Cannot Access Cart")
-
-			}
-				} else {
-					// User is not logged in, show login prompt
-					alert("Please log in to view your cart.");
-				}
-			})
-			.catch(error => {
-				console.error("Error checking login status:", error);
-			});
 	});
 </script>

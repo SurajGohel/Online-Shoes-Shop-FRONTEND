@@ -12,32 +12,24 @@ else
 {
     foreach (var shoes in Model)
     {
-
-        <div id="getDetail" class="box" style="width:19vw; position: relative;">
-            <a style="text-decoration:none;" asp-controller="Shoes" asp-action="ShoeDetail"
-               asp-route-ShoeId="@shoes.ShoeId">
-                <div class="image-container bg-primary" style="position: relative;">
+        <div id="getDetail" class="box" style="width: 19vw; position: relative; margin: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); border-radius: 8px; overflow: hidden; transition: transform 0.3s ease;">
+            <a style="text-decoration: none; color: inherit;" asp-controller="Shoes" asp-action="ShoeDetail" asp-route-ShoeId="@shoes.ShoeId">
+                <div class="image-container" style="position: relative; height: 250px; overflow: hidden;">
                     <!-- Category Name on Image -->
                     <div class="category-label">@shoes.CategoryName</div>
 
-                    <div class="image" style="background:white;">
-                        <img style="object-fit:fill;" src="@shoes.ImageURL" alt="NAthi bhai aama">
+                    <div class="image" style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                        <img style="width: 100%; height: 100%; object-fit: cover;" src="@shoes.ImageURL" alt="@shoes.Name">
                     </div>
                 </div>
-                <div class="content">
-                    <h3>@shoes.Name</h3>
-                    <div class="price">$@shoes.Price</div>
+                <div class="content" style="padding: 15px; background: #your-theme-color; color: #fff;">
+                    <h3 style="margin: 0; font-size: 18px; font-weight: 600;">@shoes.Name</h3>
+                    <div class="price" style="margin-top: 10px; font-size: 16px; font-weight: bold;">$@shoes.Price</div>
                 </div>
             </a>
         </div>
-
-        
     }
 }
-
-<script>
-
-</script>
 
 <style>
     .category-label {
@@ -50,6 +42,11 @@ else
         font-size: 14px;
         font-weight: bold;
         border-radius: 5px;
+        z-index: 1;
     }
 
+    .box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
 </style>

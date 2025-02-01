@@ -162,6 +162,8 @@ namespace Online_Shoes_Shop.Controllers
                 Response.Cookies.Delete("username");
                 Response.Cookies.Delete("role");
                 Response.Cookies.Delete("expiration");
+                Response.Cookies.Delete("email");
+
                 // Optionally, you can clear the authentication cookie if you are using an authentication framework
                 HttpContext.SignOutAsync();
 

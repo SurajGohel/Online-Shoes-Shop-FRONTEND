@@ -231,9 +231,20 @@
         }
     </div>
 </div>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    $(document).ready(function () {
+
+        toastr.options = {
+            positionClass: "toast-top-center", // Center at the top
+            timeOut: 3000, // Notification will disappear after 3 seconds
+            closeButton: true, // Show close button
+            progressBar: true, // Show progress bar
+            preventDuplicates: true // Prevent duplicate notifications
+            };
+
     document.getElementById("cLink").addEventListener("click", function () {
         // Helper function to get cookie value by name
         function getCookie(name) {
@@ -245,7 +256,9 @@
         // Get userId from the cookie
         const userId = getCookie("userid");
         if (!userId) {
-            alert("User is not logged in.");
+                    toastr.warning("Please log in first");
+
+            // alert("User is not logged in.");
             return;
         }
 
@@ -292,5 +305,6 @@
             }
         });
     }
+    });
 </script>
 

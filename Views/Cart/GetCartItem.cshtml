@@ -104,9 +104,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         $(document).ready(function () {
+            toastr.options = {
+            positionClass: "toast-top-center", // Center at the top
+            timeOut: 8000, // Notification will disappear after 3 seconds
+            closeButton: true, // Show close button
+            progressBar: true, // Show progress bar
+            preventDuplicates: true // Prevent duplicate notifications
+            };
+
             var orderSuccessMessage = '@TempData["OrderSuccessMessage"]';
             if (orderSuccessMessage) {
-                toastr.success(orderSuccessMessage); // Display the message using Toastr
+                toastr.success("orderSuccessMessage"); // Display the message using Toastr
             }
         });
     </script>

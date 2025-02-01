@@ -78,5 +78,35 @@ namespace Online_Shoes_Shop.Controllers
             }
         }
 
+        //public IActionResult UserOrders()
+        //{
+        //    return View();
+        //}
+
+        public async Task<IActionResult> UserOrders()
+        {
+            try
+            {
+                string userid = Request.Cookies["userid"]; // Ensure it doesn't throw NullReferenceException
+
+                var response = await _httpClient.GetAsync($"GetUserOrders/{userid}");
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    //Console.WriteLine("API Response Data: " + data); // Log the raw JSON response
+                    var orders = JsonConvert.DeserializeObject<List<GetUserOrdersModel>>(data);
+                    //Console.WriteLine("Deserialized Shoes: " + JsonConvert.SerializeObject(shoes)); // Log the deserialized data
+                    return View(orders);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.WriteLine(ex.Message);
+            }
+
+            return View(Enumerable.Empty<GetUserOrdersModel>()); // Return an empty view if something goes wrong
+        }
+
     }
 }
