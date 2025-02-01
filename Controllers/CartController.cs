@@ -28,30 +28,19 @@ namespace Online_Shoes_Shop.Controllers
             try
             {
                 string userid = Request.Cookies["userid"].ToString();
-                //Console.WriteLine(userid);
                 var response = await _httpClient.GetAsync($"ByUserId/{userid}");
                 if (response.IsSuccessStatusCode)
                 {
                     var data = await response.Content.ReadAsStringAsync();
-                    //Console.WriteLine("API Response Data: " + data); // Log the raw JSON response
                     var shoes = JsonConvert.DeserializeObject<List<CartModel>>(data);
-                    //Console.WriteLine("Deserialized Shoes: " + JsonConvert.SerializeObject(shoes)); // Log the deserialized data
-                    HttpContext.Session.SetString("TempTest","Data");
-
-                    HttpContext.Session.SetString("CartItems", JsonConvert.SerializeObject(shoes));
-                    return View( shoes);
-                    //return View();
+                    return View(shoes);
                 }
             }
             catch (Exception ex)
             {
-                // Log the exception
-                //Console.WriteLine(ex.Message);
-                HttpContext.Session.Remove("CartItems");
+                Console.WriteLine(ex.Message);
             }
-            HttpContext.Session.Remove("CartItems");
             return View(Enumerable.Empty<ShoesModel>());
-            //return PartialView("_ShoesList", Enumerable.Empty<ShoesModel>()); // Return an empty view if something goes wrong
         }
 
         [HttpGet]

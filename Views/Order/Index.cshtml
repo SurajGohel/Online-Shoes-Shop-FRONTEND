@@ -1,21 +1,26 @@
-﻿@using Newtonsoft.Json
+﻿@model Online_Shoes_Shop.Models.OrderModel
+@using Newtonsoft.Json
 @using Microsoft.AspNetCore.Http
-@inject IHttpContextAccessor HttpContextAccessor
 @{
-    // Retrieve session data
-    var cartItemsJson = HttpContextAccessor.HttpContext.Session.GetString("CartItems");
-    var cartItems = cartItemsJson != null ? JsonConvert.DeserializeObject<List<CartModel>>(cartItemsJson) : new List<CartModel>();
-    var totalPrice = cartItems.Sum(item => item.ShoePrice*item.Quantity);
+    var totalPrice = 0m; // Initialize total price
+    if (ViewBag.CartInfo != null)
+    {
+        foreach (var item in ViewBag.CartInfo)
+        {
+            totalPrice += item.ShoePrice * item.Quantity; // Sum total price
+        }
+    }
 }
 @{
     Layout = null;
 }
-@* @if (cartItems.Any()) *@
+
+@* @if (ViewBag.CartInfo != null && ViewBag.CartInfo.Count > 0) *@
 @* { *@
 @*     <ul> *@
-@*         @foreach (var item in cartItems) *@
+@*         @foreach (var item in ViewBag.CartInfo) *@
 @*         { *@
-@*             <li>@item.ShoeName</li> *@
+@*             <li>@item.ShoeName - @item.Quantity x $@item.ShoePrice</li> *@
 @*         } *@
 @*     </ul> *@
 @* } *@
@@ -23,6 +28,8 @@
 @* { *@
 @*     <p>No items in the cart.</p> *@
 @* } *@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,7 +47,6 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-
         }
 
         .checkout-container {
@@ -163,21 +169,25 @@
 
         /* Responsive Design */
         @@media (max-width: 768px) {
-            .checkout-container
+            .checkout-container {
+                flex-direction: column;
+            }
 
-        {
-            flex-direction: column;
+            .order-summary, .checkout-form {
+                flex: none;
+            }
+
+            .form-row .form-group {
+                flex: 1 1 100%; /* Full width on smaller screens */
+            }
         }
 
-        .order-summary, .checkout-form {
-            flex: none;
+        sup.required {
+            color: red;
+            font-size: 15px; /* Increase size */
+            font-weight: bold; /* Make it bold */
         }
 
-        .form-row .form-group {
-            flex: 1 1 100%; /* Full width on smaller screens */
-        }
-
-        }
     </style>
 </head>
 <body>
@@ -186,29 +196,21 @@
         <div class="order-summary">
             <h2>Order Summary</h2>
             <ul>
-                @foreach (var item in cartItems)
+                @foreach (var item in ViewBag.CartInfo)
                 {
-                   <li> 
-                     <span>@item.ShoeName x @item.Quantity</span>
+                    <li>
+                        <span>@item.ShoeName x @item.Quantity</span>
                         <span>$@(item.ShoePrice * item.Quantity)</span>
-                </li>
+                    </li>
                 }
                 <li>
                     <span>Shipping Charges</span>
                     <span>Free</span>
                 </li>
-                @* <li> *@
-                @*     <span>Running Shoes x 1</span> *@
-                @*     <span>$120.00</span> *@
-                @* </li> *@
-                @* <li> *@
-                @*     <span>Casual Shoes x 2</span> *@
-                @*     <span>$180.00</span> *@
-                @* </li> *@
-                @* <li> *@
-                @*     <span>Shipping</span> *@
-                @*     <span>$10.00</span> *@
-                @* </li> *@
+                <li>
+                    <span>Payment Method</span>
+                    <span>Cash On Delivery</span>
+                </li>
             </ul>
             <div class="total">
                 <span>Total</span>
@@ -219,48 +221,66 @@
 
         <!-- Right Section - Checkout Form -->
         <div class="checkout-form">
-            <h2>Checkout</h2>
-            <form id="checkout-form">
+            <!-- Add this inside the checkout-form div, above the form -->
+            <!-- Inside the checkout-form div, above the form -->
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>Checkout</h2>
+                <a href="javascript:history.back();" style="text-decoration: none; font-size: 14px; color: #6a11cb; font-weight: 600;margin-bottom:1em;">
+                    ← Go Back
+                </a>
+            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <form id="checkout-form" method="post" asp-controller="Order" asp-action="Checkout">
+                <input type="hidden" id="userId" asp-for="UserId" />
                 <!-- Customer Information -->
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="fullname">Full Name</label>
-                        <input type="text" id="fullname" name="fullname" required>
-                        <span class="validation-message">Full Name is required.</span>
+                        <label asp-for="FullName">Full Name<sup class="required">*</sup></label>
+                        <input asp-for="FullName" id="fullname">
+                        <span asp-validation-for="FullName" style="color:red;"></span>
+
+                        @* <span class="validation-message">Full Name is required.</span> *@
                     </div>
                     <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" required>
-                        <span class="validation-message">Email is required.</span>
+                        <label for="email">Email Address<sup class="required">*</sup></label>
+                        <input type="email" id="email" name="email">
+                        @* <span class="validation-message">Email is required.</span> *@
                     </div>
                 </div>
 
                 <!-- Shipping Address -->
                 <div class="form-group">
-                    <label for="address">Address</label>
-                    <input type="text" id="address" name="address" required>
-                    <span class="validation-message">Address is required.</span>
+                    <label asp-for="Address">Address<sup class="required">*</sup></label>
+                    <input asp-for="Address" id="address">
+                    <span asp-validation-for="Address" style="color:red;"></span>
+                    @* <span class="validation-message">Address is required.</span> *@
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="city">City</label>
-                        <input type="text" id="city" name="city" required>
-                        <span class="validation-message">City is required.</span>
+                        <label asp-for="City">City<sup class="required">*</sup></label>
+                        <input asp-for="City" id="city">
+                        <span asp-validation-for="City" style="color:red;"></span>
+
+                        @* <span class="validation-message">City is required.</span> *@
                     </div>
                     <div class="form-group">
-                        <label for="state">State</label>
-                        <input type="text" id="state" name="state" required>
-                        <span class="validation-message">State is required.</span>
+                        <label asp-for="State">State<sup class="required">*</sup></label>
+                        <input asp-for="State" id="state">
+                        <span asp-validation-for="State" style="color:red;"></span>
+
+                        @* <span class="validation-message">State is required.</span> *@
                     </div>
                     <div class="form-group">
-                        <label for="zip">Pincode</label>
-                        <input type="text" id="zip" name="zip" required>
-                        <span class="validation-message">Pincode is required.</span>
+                        <label asp-for="Pincode">Pincode<sup class="required">*</sup></label>
+                        <input asp-for="Pincode" id="zip">
+                        <span asp-validation-for="Pincode" style="color:red;"></span>
+                        @* <span class="validation-message">Pincode is required.</span> *@
                     </div>
                     <div class="form-group">
-                        <label for="mobile">Mobile Number</label>
-                        <input type="text" id="mobile" name="mobile" required>
-                        <span class="validation-message">Mobile Number is required.</span>
+                        <label asp-for="MobileNumber">Mobile Number<sup class="required">*</sup></label>
+                        <input asp-for="MobileNumber" id="mobile" >
+                        <span asp-validation-for="MobileNumber" style="color:red;"></span>
+                        @* <span class="validation-message">Mobile Number is required.</span> *@
                     </div>
                 </div>
 
@@ -271,26 +291,39 @@
         </div>
     </div>
 
-    <script>
-        // Basic form validation
-        document.getElementById('checkout-form').addEventListener('submit', function(event) {
-            let isValid = true;
-            const inputs = document.querySelectorAll('#checkout-form input[required]');
 
-            inputs.forEach(input => {
-                if (!input.value.trim()) {
-                    isValid = false;
-                    input.nextElementSibling.style.display = 'block';
-                } else {
-                    input.nextElementSibling.style.display = 'none';
-                }
-            });
-
-            if (!isValid) {
-                event.preventDefault();
-                alert('Please fill out all required fields.');
-            }
-        });
-    </script>
 </body>
 </html>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+        // Get userId from the cookie
+        const userId = getCookie("userid");
+        const userName = getCookie("username");
+        const mail = decodeURIComponent(getCookie("email"));
+
+        if (!userId) {
+            alert("Please Login First");
+            return
+        }
+        if(!userName){
+            alert("Please Login First userName");
+            return
+        }
+
+        $("#userId").val(userId);
+        // $("#fullname").val(userName).prop("disabled", true);
+        // $("#email").val(mail).prop("disabled", true);
+
+            $("#fullname").val(userName).prop("readonly", true);
+    $("#email").val(mail).prop("readonly", true);
+    });
+</script>

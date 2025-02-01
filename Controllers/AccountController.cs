@@ -59,7 +59,6 @@ namespace Online_Shoes_Shop.Controllers
                     ModelState.AddModelError("", $"Registration failed: {errorResponse}");
                 }
             }
-
             // If ModelState is not valid or an error occurred, re-display the form with errors
             return View(registerUserModel);
         }
@@ -107,6 +106,7 @@ namespace Online_Shoes_Shop.Controllers
                         var role = jwtToken.Claims.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role")?.Value;
                         var expiration = jwtToken.Claims.FirstOrDefault(c => c.Type == "exp")?.Value;
                         var userId = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+                        var email = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
                         // Create cookie options
                         var cookieOptions = new CookieOptions
                         {
@@ -118,6 +118,7 @@ namespace Online_Shoes_Shop.Controllers
                         Response.Cookies.Append("username", username, cookieOptions);
                         Response.Cookies.Append("role", role, cookieOptions);
                         Response.Cookies.Append("expiration", expiration, cookieOptions);
+                        Response.Cookies.Append("email", email, cookieOptions);
 
                         if (role == "Admin")
                         {

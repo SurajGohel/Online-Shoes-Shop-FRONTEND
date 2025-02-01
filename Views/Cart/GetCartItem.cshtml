@@ -1,100 +1,113 @@
 ﻿@model IEnumerable<Online_Shoes_Shop.Models.CartModel>
 
-<br />
-<br />
+
 <div class="mt-5 container">
-
-    <div class="card card-registration card-registration-2" style="border-radius: 15px;">
-        <div class="card-body p-0">
-            <div class="row g-0">
-                <div class="col">
-                    <div class="p-5">
-                        <div class="d-flex justify-content-between align-items-center mb-5 px-3">
-                            <h1 class="fw-bold mb-0">Shopping Cart</h1>
-                            <h6 class="mb-0 text-muted fs-3">@Model.Count() items</h6>
-                        </div>
-                        <hr class="my-4">
-
-                        @if (Model == null || !Model.Any())
-                        {
-                            <div class="box">
-                                <div class="content">
-                                    <h3>No items found</h3>
-                                </div>
-                            </div>
-                        }
-                        else
-                        {
-                            @foreach (var cart in Model)
-                            {
-
-                                <div class="row mb-4 d-flex justify-content-between align-items-center">
-                                    <div class="col-md-2 col-lg-2 col-xl-2 mx-auto">
-                                        <img src=@cart.ShoeImageURL class="img-fluid rounded-3 ms-5" alt="Shoe" style="height:22vh;width:8vw;">
-                                    </div>
-                                    <div class="col-md-3 col-lg-3 col-xl-3">
-                                        <h6 class="text-muted fs-1">@cart.ShoeName</h6>
-                                        @* <h6 class="mb-0 fs-4">Men</h6> *@
-                                    </div>
-
-                                    <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                        @* <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" *@
-                                        @* onclick="this.parentNode.querySelector('input[type=number]').stepDown()"> *@
-                                        @*     <i class="fas fa-minus fs-6"></i> *@
-                                        @* </button> *@
-
-                                        <input id="form1" min="1" max="5" name="quantity" value=@cart.Quantity type="number"
-                                        class="form-control form-control-sm fs-4" disabled/>
-
-                                        @* <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2" *@
-                                        @* onclick="this.parentNode.querySelector('input[type=number]').stepUp()"> *@
-                                        @*     <i class="fas fa-plus fs-6"></i> *@
-                                        @* </button> *@
-                                    </div>
-                                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                        <h6 class="mb-0 fs-2">$ @cart.ShoePrice</h6>
-                                    </div>
-                                    <div class="col-md-1 col-lg-1 col-xl-1 text-center">
-                                        <a asp-controller="Cart" asp-action="Delete" asp-route-CartId="@cart.CartItemId" class="text-muted " onclick="return confirm('Are you sure you want to remove this item?')"><i class="fas fa-times fs-3"></i></a>
-                                        @* <a href="javascript:void(0);" class="text-muted delete-item" data-url="@Url.Action("Delete", "Cart", new { CartId = cart.CartItemId })"> *@
-                                        @*     <i class="fas fa-times fs-3"></i> *@
-                                        @* </a> *@
-
-                                    </div>
-                                </div>
-
-                                <hr class="my-4">
-                            }
-
-                        }
-                        @if (@Model.Count() != 0) { 
-                        <div style="display:flex;justify-content:center;align-items:center;">
-                            <button class="btn btn-primary">
-                                <a style="color:white;text-decoration:none;" asp-controller="Cart" asp-action="GoToCheckOut">
-                                    Check Out
-                                </a>
-                            </button>
-                        </div>
-                        }
-                    </div>
-                </div>
+    <div class="card border border-secondary" style="border-radius: 10px;;margin-top:8vh;">
+        <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1 class="fw-bold mb-0" style="font-size: 2.5rem;padding-top:1rem;">Shopping Cart</h1>
+                <h6 class="mb-0 text-muted" style="font-size: 1.5rem;">@Model.Count() items</h6>
             </div>
+            <hr class="my-4">
+
+            @if (Model == null || !Model.Any())
+            {
+                <div class="text-center py-5">
+                    <h3>Your cart is empty</h3>
+                    <p class="text-muted">Add some items to your cart to get started.</p>
+                </div>
+            }
+            else
+            {
+                foreach (var cart in Model)
+                {
+                    <div class="row mb-4 align-items-center">
+                        <div class="col-md-2">
+                            <img src="@cart.ShoeImageURL" class="img-fluid rounded-3" alt="Shoe" style="height: 120px; width: auto;">
+                        </div>
+                        <div class="col-md-4">
+                            <h6 class="mb-1" style="font-size: 1.5rem;">@cart.ShoeName</h6>
+                            <small class="text-muted" style="font-size: 1.2rem;">Quantity: @cart.Quantity</small>
+                        </div>
+                        <div class="col-md-3">
+                            <h6 class="mb-0" style="font-size: 1.5rem;">$@cart.ShoePrice</h6>
+                        </div>
+                        <div class="col-md-2 text-end">
+                            <a asp-controller="Cart" asp-action="Delete" asp-route-CartId="@cart.CartItemId" class="text-muted" onclick="return confirm('Are you sure you want to remove this item?')">
+                                <i class="fas fa-times" style="font-size: 1.5rem;"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <hr class="my-3">
+                }
+
+                <div class="d-flex justify-content-between align-items-center mt-4">
+                    <h5 class="mb-0" style="font-size: 1.8rem;">Total: $@Model.Sum(c => c.ShoePrice * c.Quantity)</h5>
+                    <button class="btn btn-primary btn-lg" style="font-size: 1.5rem; padding: 0.75rem 2.5rem;">
+                        <a style="color: white; text-decoration: none;" asp-controller="Cart" asp-action="GoToCheckOut">
+                            Check Out
+                        </a>
+                    </button>
+                </div>
+            }
         </div>
     </div>
-
 </div>
 
 <style>
-
-
-    .card-registration .select-input.form-control[readonly]:not([disabled]) {
-        font-size: 1rem;
-        line-height: 2.15;
-        padding-left: .75em;
-        padding-right: .75em;
+    .card {
+        background-color: #ffffff;
+        border: none;
     }
 
-    .card-registration .select-arrow {
-        top: 13px;
+    .card-body {
+        padding: 2rem;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #ced4da;
+    }
+
+    .text-muted {
+        color: #6c757d;
+    }
+
+    .fas {
+        cursor: pointer;
+    }
+
+        .fas:hover {
+            color: #dc3545;
+        }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .text-end {
+        text-align: end;
     }
 </style>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var orderSuccessMessage = '@TempData["OrderSuccessMessage"]';
+            if (orderSuccessMessage) {
+                toastr.success(orderSuccessMessage); // Display the message using Toastr
+            }
+        });
+    </script>
+}
