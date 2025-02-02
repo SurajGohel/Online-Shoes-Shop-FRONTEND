@@ -155,8 +155,8 @@ namespace Online_Shoes_Shop.Controllers
         public IActionResult Logout()
         {
             // Remove specific cookies
-            if (HttpContext.Request.Cookies["role"] == "User")
-            {
+            //if (HttpContext.Request.Cookies["role"] == "User")
+            //{
                 Response.Cookies.Delete("userid");
 
                 Response.Cookies.Delete("username");
@@ -169,9 +169,9 @@ namespace Online_Shoes_Shop.Controllers
 
                 // Redirect to the login page
                 return RedirectToAction("Index", "Shoes");
-            }
+            //}
             
-            return RedirectToAction("Index", "Shoes");
+            //return RedirectToAction("Index", "Shoes");
             
         }
 

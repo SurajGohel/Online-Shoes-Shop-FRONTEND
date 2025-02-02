@@ -108,5 +108,30 @@ namespace Online_Shoes_Shop.Controllers
             return View(Enumerable.Empty<GetUserOrdersModel>()); // Return an empty view if something goes wrong
         }
 
+        public async Task<IActionResult> OrderDetail(int id)
+        {
+            var response = await _httpClient.GetAsync($"OrderByOrderId/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                var data = await response.Content.ReadAsStringAsync();
+                var order = JsonConvert.DeserializeObject<GetOrderByOrderIdModel>(data);
+                ViewBag.Order = order;
+
+                var response2 = await _httpClient.GetAsync($"GetAllOrderByOrderId/{id}");
+                if (response2.IsSuccessStatusCode)
+                {
+                    var data2 = await response2.Content.ReadAsStringAsync();
+                    var orderDetails = JsonConvert.DeserializeObject<List<GetOrderDetailByOrderIdModel>>(data2);
+                    return View(orderDetails);
+                }
+            }
+            else
+            {
+                ViewBag.Order = new GetOrderByOrderIdModel();
+            }
+
+            return await UserOrders();
+        }
+
     }
 }

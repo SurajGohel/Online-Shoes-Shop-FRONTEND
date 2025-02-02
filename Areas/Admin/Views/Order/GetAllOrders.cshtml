@@ -18,7 +18,7 @@
             justify-content: center;
             /* align-items: center; */
             /* min-height: 100vh; */
-            margin-top:70px;
+            margin-top: 70px;
         }
 
         .order-container {
@@ -81,12 +81,14 @@
                 color: yellow;
             }
 
-            .status.dispatched{
-                color:blue;
+            .status.dispatched {
+                color: blue;
             }
+
             .status.cancelled {
                 color: red;
             }
+
             .status.delivered {
                 color: green;
             }
@@ -121,6 +123,11 @@
                 text-align: center;
             }
         }
+
+        .status select {
+            padding: 5px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -141,18 +148,25 @@
                 @foreach (var order in Model)
                 {
                     <div class="order-item">
+                        
                         <div class="order-number">
                             Order Number #@order.OrderId
                             <br>
                             <span class="order-date">Order Date: @order.OrderDate.ToString("dd-MM-yyyy hh:mm:ss tt")</span>
+                            <div style="font-size:1.1rem;">User Name : <span style="font-size:1rem;color:grey;">@order.UserName</span></div>
+
                         </div>
                         <div class="payment">@order.PaymentMethod</div>
-                        <div class="status @order.Status.ToLower()">
-                            @order.Status
-                            <span class="status-date">(Updated: @order.LastStatusChangedDate.ToString("dd-MM-yyyy hh:mm:ss tt"))</span>
+                        <div class="status">
+                            <select class="status-dropdown" data-orderid="@order.OrderId" data-userid="@order.UserId">
+                                <option value="Pending" selected="@(order.Status == "Pending")">Pending</option>
+                                <option value="Processing" selected="@(order.Status == "Processing")">Processing</option>
+                                <option value="Dispatched" selected="@(order.Status == "Dispatched")">Dispatched</option>
+                                <option value="Delivered" selected="@(order.Status == "Delivered")">Delivered</option>
+                            </select>
                         </div>
                         <div class="total">$@order.TotalAmount</div>
-                        <a asp-controller="Order" asp-action="OrderDetail" asp-route-id="@order.OrderId" class="view-product">Order Detail »</a>
+                        <a asp-area="Admin" asp-controller="Order" asp-action="OrderDetailInAdmin" asp-route-id="@order.OrderId" class="view-product">Order Detail »</a>
                     </div>
                 }
             }
@@ -186,5 +200,27 @@
             @* </div> *@
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.status-dropdown').change(function () {
+                var orderId = $(this).data('orderid');
+                var userId = $(this).data('userid');
+                var newStatus = $(this).val();
+
+                $.ajax({
+                    url: `https://localhost:44328/api/Order/updatestatus/${userId}/${orderId}/${newStatus}`, // Passing parameters in URL
+                    type: 'POST',
+                    success: function (response) {
+                        alert('Status updated successfully');
+                    },
+                    error: function () {
+                        alert('Failed to update status');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

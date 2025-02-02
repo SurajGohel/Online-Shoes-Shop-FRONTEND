@@ -1,0 +1,222 @@
+﻿@model IEnumerable<Online_Shoes_Shop.Models.GetOrderDetailByOrderIdModel>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Summary</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .main-container {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .order-container {
+            background: white;
+            width: 800px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+
+        .header123 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative; /* Ensure it contains the absolute element */
+            padding-bottom: 10px; /* Prevent overlap */
+        }
+
+        .status123 {
+            padding: 4px 10px; /* Reduce padding */
+            border-radius: 8px; /* Match other elements */
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-block; /* Keep it aligned properly */
+            box-shadow: none; /* Remove any extra shadow */
+        }
+
+            .status123.delivered {
+                background: #e5faf5;
+                color: #14a76c;
+            }
+
+            .status123.processing {
+                background: #f1ff7f;
+                color: #999e20;
+            }
+
+            .status123.dispatched {
+                background: #9e9bff;
+                color: blue;
+            }
+
+            .status123.pending {
+                background: #ffde7f;
+                color: darkorange;
+            }
+
+        .order-details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+
+            .order-details div {
+                width: 48%;
+            }
+
+            .order-details p {
+                margin: 5px 0;
+                word-wrap: break-word;
+            }
+
+        .order-items {
+            margin-top: 20px;
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+            .item:last-child {
+                border-bottom: none;
+            }
+
+            .item img {
+                width: 120px;
+                height: 120px;
+                border-radius: 5px;
+                object-fit: cover;
+            }
+
+        .item-info {
+            flex: 1;
+            margin-left: 15px;
+        }
+
+        .item-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .item-details {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .item-price {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .buy-again {
+            color: #5a54f4;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .total-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .download {
+            color: #5a54f4;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+            .download::before {
+                content: '\2193';
+                margin-right: 5px;
+            }
+
+        .back-button {
+            background: #f1f1f1;
+            color: #333;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+            .back-button:hover {
+                background: #e0e0e0;
+            }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="order-container">
+            <div class="header123">
+                <span class="status123 @ViewBag.Order.Status.ToLower()">● @ViewBag.Order.Status</span>
+                <button class="back-button" onclick="history.back()">← Back</button>
+            </div>
+            <div class="order-details">
+                <div>
+                    <p><strong>Order Number:</strong> #@ViewBag.Order.OrderId</p>
+                    <p><strong>Order Date:</strong> @ViewBag.Order.OrderDate.ToString("dd-MM-yyyy hh:mm tt")</p>
+                    <p>
+                        <strong>Delivered Date:</strong>
+                        @if (@ViewBag.Order.Status == "Delivered")
+                        {
+                            @ViewBag.Order.DeliveryDate.ToString("dd-MM-yyyy hh:mm tt")
+                        }
+                    </p>
+                </div>
+                <div>
+                    <p><strong>Ship To:</strong> @ViewBag.Order.Address, @ViewBag.Order.City, @ViewBag.Order.State, @ViewBag.Order.Pincode</p>
+                    <p><strong>Payment Method:</strong> @ViewBag.Order.PaymentMethod</p>
+                    <p><strong>Mobile Number :</strong> @ViewBag.Order.MobileNumber</p>
+
+                </div>
+
+            </div>
+            <div class="order-items">
+                @foreach (var order in Model)
+                {
+                    <div class="item">
+                        <img src=@order.ImageURL alt=@order.ShoeName.ToString()>
+                        <div class="item-info">
+                            <div class="item-title">@order.ShoeName</div>
+                            <div class="item-details">Qty: @order.Quantity &nbsp; | &nbsp; Category: @order.CategoryName</div>
+                            <div class="buy-again"><a style="text-decoration:none;" asp-controller="Shoes" asp-action="ShoeDetail" asp-route-ShoeId="@order.ShoeId">See Detail</a></div>
+                        </div>
+                        <div class="item-price">$@(order.Quantity * order.Price)</div>
+                    </div>
+                }
+            </div>
+            <div class="total-section">
+                <div>Total Amount: <strong>$@ViewBag.Order.TotalAmount</strong></div>
+                <div class="download">Download Invoice</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

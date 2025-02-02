@@ -37,7 +37,7 @@
 				<a asp-controller="Admin" asp-action="Index">Admin</a>
 			}
 			@* <a asp-controller="User" asp-action="Index">User</a> *@
-			<a asp-controller="Order" asp-action="UserOrders">Orders</a>
+			<a href="#orders">Orders</a>
 
 		</nav>
 
@@ -55,8 +55,6 @@
 					{
 						<span>Hello, @User.Identity.Name!</span>
 						<a asp-controller="Account" asp-action="Logout" id="logoutLink">Logout</a>
-						
-
 					}
 					else
 					{

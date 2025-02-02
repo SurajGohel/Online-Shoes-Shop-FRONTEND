@@ -5,6 +5,7 @@ namespace Online_Shoes_Shop.Models
     public class ShoesModel
     {
         public int? ShoeId { get; set; } // Corresponds to ShoeId (Primary Key)
+        [Required]
         public string Name { get; set; } // Corresponds to Name
         public int CategoryId { get; set; } // Corresponds to CategoryId (Foreign Key referencing Categories table)
         public string CategoryName { get; set; }
