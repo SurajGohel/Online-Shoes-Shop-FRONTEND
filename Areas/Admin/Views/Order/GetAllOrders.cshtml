@@ -4,223 +4,245 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order List</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        .main-container {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-            display: flex;
-            justify-content: center;
-            /* align-items: center; */
-            /* min-height: 100vh; */
-            margin-top: 70px;
-        }
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Order List</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	<style>
+		.main-container {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+			background-color: #f9f9f9;
+			display: flex;
+			justify-content: center;
+			/* align-items: center; */
+			/* min-height: 100vh; */
+			margin-top: 70px;
+		}
 
-        .order-container {
-            width: 100%;
-            max-width: none;
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-        }
+		.order-container {
+			width: 100%;
+			max-width: none;
+			background: white;
+			padding: 25px;
+			border-radius: 10px;
+			box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+		}
 
-        h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+		h2 {
+			font-size: 24px;
+			margin-bottom: 20px;
+			text-align: center;
+		}
 
-        .order-item {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            border-bottom: 1px solid #ddd;
-        }
+		.order-item {
+			display: grid;
+			grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+			align-items: center;
+			gap: 15px;
+			padding: 15px;
+			border-bottom: 1px solid #ddd;
+		}
 
-            .order-item:last-child {
-                border-bottom: none;
-            }
+			.order-item:last-child {
+				border-bottom: none;
+			}
 
-        .order-number {
-            font-weight: bold;
-            color: #333;
-            font-size: 16px;
-            margin-left: 4vw;
-        }
+		.order-number {
+			font-weight: bold;
+			color: #333;
+			font-size: 16px;
+			margin-left: 4vw;
+		}
 
-        .order-date {
-            color: #555;
-            font-size: 14px;
-            margin-top: 5px;
-        }
+		.order-date {
+			color: #555;
+			font-size: 14px;
+			margin-top: 5px;
+		}
 
-        .payment {
-            font-size: 14px;
-            color: #555;
-            margin-right: vw;
-        }
+		.payment {
+			font-size: 14px;
+			color: #555;
+			margin-right: vw;
+		}
 
-        .status {
-            font-size: 14px;
-            font-weight: bold;
-        }
+		.status {
+			font-size: 14px;
+			font-weight: bold;
+		}
 
-            .status.pending {
-                color: orange;
-            }
+			.status.pending {
+				color: orange;
+			}
 
-            .status.processing {
-                color: yellow;
-            }
+			.status.processing {
+				color: yellow;
+			}
 
-            .status.dispatched {
-                color: blue;
-            }
+			.status.dispatched {
+				color: blue;
+			}
 
-            .status.cancelled {
-                color: red;
-            }
+			.status.cancelled {
+				color: red;
+			}
 
-            .status.delivered {
-                color: green;
-            }
+			.status.delivered {
+				color: green;
+			}
 
-        .status-date {
-            font-size: 12px;
-            font-weight: bold;
-            display: block;
-            color: #555;
-            margin-top: 2px;
-        }
+		.status-date {
+			font-size: 12px;
+			font-weight: bold;
+			display: block;
+			color: #555;
+			margin-top: 2px;
+		}
 
-        .total {
-            font-weight: bold;
-            font-size: 14px;
-        }
+		.total {
+			font-weight: bold;
+			font-size: 14px;
+		}
 
-        .view-product {
-            color: blue;
-            font-size: 14px;
-            text-decoration: none;
-            font-weight: bold;
-        }
+		.view-product {
+			color: blue;
+			font-size: 14px;
+			text-decoration: none;
+			font-weight: bold;
+		}
 
-            .view-product:hover {
-                text-decoration: underline;
-            }
+			.view-product:hover {
+				text-decoration: underline;
+			}
 
-        @@media (max-width: 768px) {
-            .order-item {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-        }
+		@@media (max-width: 768px) {
+			.order-item {
+				grid-template-columns: 1fr;
+				text-align: center;
+			}
+		}
 
-        .status select {
-            padding: 5px;
-            font-size: 14px;
-        }
-    </style>
+		.status select {
+			padding: 5px;
+			font-size: 14px;
+		}
+	</style>
 </head>
 <body>
-    <div class="main-container" id="orders">
-        <div class="order-container">
-            <h2>Order List</h2>
-            @if (Model != null && Model.Any())
-            {
-                <!-- Title Row -->
-                <div class="order-item" style="background-color: lightgray;font-weight: 600;border-radius: 5px;font-size: 1.5rem;">
-                    <div></div>
-                    <div>Payment Method</div>
-                    <div>Status</div>
-                    <div>Total Amount</div>
-                </div>
+	<div class="main-container" id="orders">
+		<div class="order-container">
+			<h2>Order List</h2>
+			@if (Model != null && Model.Any())
+			{
+				<!-- Title Row -->
+				<div class="order-item" style="background-color: lightgray;font-weight: 600;border-radius: 5px;font-size: 1.5rem;">
+					<div></div>
+					<div>Payment Method</div>
+					<div>Status</div>
+					<div>Total Amount</div>
+				</div>
 
-                <!-- Loop through orders -->
-                @foreach (var order in Model)
-                {
-                    <div class="order-item">
-                        
-                        <div class="order-number">
-                            Order Number #@order.OrderId
-                            <br>
-                            <span class="order-date">Order Date: @order.OrderDate.ToString("dd-MM-yyyy hh:mm:ss tt")</span>
-                            <div style="font-size:1.1rem;">User Name : <span style="font-size:1rem;color:grey;">@order.UserName</span></div>
+				<!-- Loop through orders -->
+				@foreach (var order in Model)
+				{
+					<div class="order-item">
 
-                        </div>
-                        <div class="payment">@order.PaymentMethod</div>
-                        <div class="status">
-                            <select class="status-dropdown" data-orderid="@order.OrderId" data-userid="@order.UserId">
-                                <option value="Pending" selected="@(order.Status == "Pending")">Pending</option>
-                                <option value="Processing" selected="@(order.Status == "Processing")">Processing</option>
-                                <option value="Dispatched" selected="@(order.Status == "Dispatched")">Dispatched</option>
-                                <option value="Delivered" selected="@(order.Status == "Delivered")">Delivered</option>
-                            </select>
-                        </div>
-                        <div class="total">$@order.TotalAmount</div>
-                        <a asp-area="Admin" asp-controller="Order" asp-action="OrderDetailInAdmin" asp-route-id="@order.OrderId" class="view-product">Order Detail »</a>
-                    </div>
-                }
-            }
-            else
-            {
-                <!-- Message if no orders -->
-                <div class="no-orders" style="font-size:1.9rem;text-align:center;font-weight:600;">No orders found.</div>
-            }
+						<div class="order-number">
+							Order Number #@order.OrderId
+							<br>
+							<span class="order-date">Order Date: @order.OrderDate.ToString("dd-MM-yyyy hh:mm:ss tt")</span>
+							<div style="font-size:1.1rem;">User Name : <span style="font-size:1rem;color:grey;">@order.UserName</span></div>
+
+						</div>
+						<div class="payment">@order.PaymentMethod</div>
+						<div class="status">
+							<select style="font-weight:600;font-size:1.1rem;border-radius:5px;" class="status-dropdown" data-orderid="@order.OrderId" data-userid="@order.UserId">
+								<option value="Pending" selected="@(order.Status == "Pending")">Pending</option>
+								<option value="Processing" selected="@(order.Status == "Processing")">Processing</option>
+								<option value="Dispatched" selected="@(order.Status == "Dispatched")">Dispatched</option>
+								<option value="Delivered" selected="@(order.Status == "Delivered")">Delivered</option>
+							</select>
+						</div>
+						<div class="total">$@order.TotalAmount</div>
+						<a asp-area="Admin" asp-controller="Order" asp-action="OrderDetailInAdmin" asp-route-id="@order.OrderId" class="view-product">Order Detail »</a>
+					</div>
+				}
+			}
+			else
+			{
+				<!-- Message if no orders -->
+				<div class="no-orders" style="font-size:1.9rem;text-align:center;font-weight:600;">No orders found.</div>
+			}
 
 
-            @* <div class="order-item"> *@
-            @*     <div class="order-number">Order Number #25658<br><span class="order-date">Order Date: 2025-01-28</span></div> *@
-            @*     <div class="payment">Credit Card</div> *@
-            @*     <div class="status cancelled">Cancelled <span class="status-date">(Updated: 2025-01-30 02:45 PM)</span></div> *@
-            @*     <div class="total">$50</div> *@
-            @*     <a href="#" class="view-product">View Product »</a> *@
-            @* </div> *@
-            @* <div class="order-item"> *@
-            @*     <div class="order-number">Order Number #12658<br><span class="order-date">Order Date: 2025-01-20</span></div> *@
-            @*     <div class="payment">Credit Card</div> *@
-            @*     <div class="status delivered">Delivered <span class="status-date">(Updated: 2025-01-25 09:10 AM)</span></div> *@
-            @*     <div class="total">$12</div> *@
-            @*     <a href="#" class="view-product">View Product »</a> *@
-            @* </div> *@
-            @* <div class="order-item"> *@
-            @*     <div class="order-number">Order Number #25641<br><span class="order-date">Order Date: 2025-01-15</span></div> *@
-            @*     <div class="payment">Credit Card</div> *@
-            @*     <div class="status delivered">Delivered <span class="status-date">(Updated: 2025-01-18 11:20 AM)</span></div> *@
-            @*     <div class="total">$58.26</div> *@
-            @*     <a href="#" class="view-product">View Product »</a> *@
-            @* </div> *@
-        </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+			@* <div class="order-item"> *@
+			@*     <div class="order-number">Order Number #25658<br><span class="order-date">Order Date: 2025-01-28</span></div> *@
+			@*     <div class="payment">Credit Card</div> *@
+			@*     <div class="status cancelled">Cancelled <span class="status-date">(Updated: 2025-01-30 02:45 PM)</span></div> *@
+			@*     <div class="total">$50</div> *@
+			@*     <a href="#" class="view-product">View Product »</a> *@
+			@* </div> *@
+			@* <div class="order-item"> *@
+			@*     <div class="order-number">Order Number #12658<br><span class="order-date">Order Date: 2025-01-20</span></div> *@
+			@*     <div class="payment">Credit Card</div> *@
+			@*     <div class="status delivered">Delivered <span class="status-date">(Updated: 2025-01-25 09:10 AM)</span></div> *@
+			@*     <div class="total">$12</div> *@
+			@*     <a href="#" class="view-product">View Product »</a> *@
+			@* </div> *@
+			@* <div class="order-item"> *@
+			@*     <div class="order-number">Order Number #25641<br><span class="order-date">Order Date: 2025-01-15</span></div> *@
+			@*     <div class="payment">Credit Card</div> *@
+			@*     <div class="status delivered">Delivered <span class="status-date">(Updated: 2025-01-18 11:20 AM)</span></div> *@
+			@*     <div class="total">$58.26</div> *@
+			@*     <a href="#" class="view-product">View Product »</a> *@
+			@* </div> *@
+		</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
-        $(document).ready(function () {
-            $('.status-dropdown').change(function () {
-                var orderId = $(this).data('orderid');
-                var userId = $(this).data('userid');
-                var newStatus = $(this).val();
+	<script>
+		$(document).ready(function () {
+			$('.status-dropdown').change(function () {
+				var orderId = $(this).data('orderid');
+				var userId = $(this).data('userid');
+				var newStatus = $(this).val();
 
-                $.ajax({
-                    url: `https://localhost:44328/api/Order/updatestatus/${userId}/${orderId}/${newStatus}`, // Passing parameters in URL
-                    type: 'POST',
-                    success: function (response) {
-                        alert('Status updated successfully');
-                    },
-                    error: function () {
-                        alert('Failed to update status');
-                    }
-                });
-            });
-        });
-    </script>
+				$.ajax({
+					url: `https://localhost:44328/api/Order/updatestatus/${userId}/${orderId}/${newStatus}`, // Passing parameters in URL
+					type: 'POST',
+					success: function (response) {
+						alert('Status updated successfully');
+					},
+					error: function () {
+						alert('Failed to update status');
+					}
+				});
+			});
+		});
+
+		function applyStatusStyle(selectElement){
+			var status = $(selectElement).val();
+			var colors = {
+				"Pending": { color: "rgb(209, 148, 34)", bg: "rgba(255, 202, 103, 0.815)" },
+				"Processing": { color: "rgb(219, 219, 35)", bg: "lightyellow" },
+				"Dispatched": { color: "blue", bg: "lightblue" },
+				"Delivered": { color: "green", bg: "lightgreen" }
+			};
+			$(selectElement).css({
+				"color": colors[status].color,
+				"background-color": colors[status].bg
+			});
+		}
+
+		$(".status-dropdown").each(function () {
+			applyStatusStyle(this);
+		});
+
+		$(".status-dropdown").change(function () {
+			applyStatusStyle(this);
+		});
+	</script>
 </body>
 </html>
