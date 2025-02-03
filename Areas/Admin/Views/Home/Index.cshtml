@@ -1,11 +1,13 @@
-﻿<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
+﻿@model Online_Shoes_Shop.Models.DashboardViewModel
+
+<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pt-2 pb-4">
     <div>
         <h3 class="fw-bold mb-3">Dashboard</h3>
     </div>
-    <div class="ms-md-auto py-2 py-md-0">
-        <a href="#" class="btn btn-label-info btn-round me-2">Manage</a>
-        <a href="#" class="btn btn-primary btn-round">Add Customer</a>
-    </div>
+    @* <div class="ms-md-auto py-2 py-md-0"> *@
+    @*     <a href="#" class="btn btn-label-info btn-round me-2">Manage</a> *@
+    @*     <a href="#" class="btn btn-primary btn-round">Add Customer</a> *@
+    @* </div> *@
 </div>
 <div class="row">
     <div class="col-sm-6 col-md-3">
@@ -20,7 +22,7 @@
                     <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
                             <p class="card-category">Visitors</p>
-                            <h4 class="card-title">1,294</h4>
+                            <h4 class="card-title">@Model.Statistics.TotalVisitors</h4>
                         </div>
                     </div>
                 </div>
@@ -39,7 +41,7 @@
                     <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
                             <p class="card-category">Subscribers</p>
-                            <h4 class="card-title">1303</h4>
+                            <h4 class="card-title">@Model.Statistics.TotalVisitors</h4>
                         </div>
                     </div>
                 </div>
@@ -58,7 +60,7 @@
                     <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
                             <p class="card-category">Sales</p>
-                            <h4 class="card-title">$ 1,345</h4>
+                            <h4 class="card-title">$ @Model.Statistics.TotalSales</h4>
                         </div>
                     </div>
                 </div>
@@ -77,7 +79,7 @@
                     <div class="col col-stats ms-3 ms-sm-0">
                         <div class="numbers">
                             <p class="card-category">Order</p>
-                            <h4 class="card-title">576</h4>
+                            <h4 class="card-title">@Model.Statistics.TotalOrders</h4>
                         </div>
                     </div>
                 </div>
@@ -85,3 +87,100 @@
         </div>
     </div>
 </div>
+
+
+<div class="row">
+    <!-- Monthly Sales Chart -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Monthly Sales Chart</h4>
+            </div>
+            <div class="card-body">
+                <canvas id="monthlySalesChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top-Selling Shoes -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Top-Selling Shoes</h4>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Shoe Name</th>
+                            <th>Sold Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody id="topSellingShoes">
+                        @foreach (var shoe in Model.TopSellingShoes)
+                        {
+
+                        <tr>
+                            <td>@shoe.Name</td>
+                            <td>@shoe.TotalSold</td>
+                         </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Low Stock Alerts -->
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title text-danger">Low Stock Alerts</h4>
+            </div>
+            <div class="card-body">
+                <ul id="lowStockAlerts" class="list-group">
+                    @foreach (var shoe in Model.LowStockAlerts)
+ {
+
+                    <li class="list-group-item list-group-item-danger">@shoe.Name - Only @shoe.Stock left!</li>
+ }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Convert C# Model Data into JavaScript variables
+    var monthlyLabels = @Html.Raw(Json.Serialize(Model.SalesDataModels.Select(x => x.Month)));
+    var monthlySales = @Html.Raw(Json.Serialize(Model.SalesDataModels.Select(x => x.TotalSales)));
+
+    var monthlySalesData = {
+        labels: monthlyLabels,
+        datasets: [{
+            label: 'Sales ($)',
+            data: monthlySales,
+            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 2
+        }]
+    };
+
+    // Render the Chart
+    var ctx = document.getElementById('monthlySalesChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: monthlySalesData,
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+</script>

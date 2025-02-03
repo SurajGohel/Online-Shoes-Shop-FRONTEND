@@ -134,6 +134,7 @@
 	<div class="main-container" id="orders">
 		<div class="order-container">
 			<h2>Order List</h2>
+
 			@if (Model != null && Model.Any())
 			{
 				<!-- Title Row -->
@@ -175,29 +176,6 @@
 				<!-- Message if no orders -->
 				<div class="no-orders" style="font-size:1.9rem;text-align:center;font-weight:600;">No orders found.</div>
 			}
-
-
-			@* <div class="order-item"> *@
-			@*     <div class="order-number">Order Number #25658<br><span class="order-date">Order Date: 2025-01-28</span></div> *@
-			@*     <div class="payment">Credit Card</div> *@
-			@*     <div class="status cancelled">Cancelled <span class="status-date">(Updated: 2025-01-30 02:45 PM)</span></div> *@
-			@*     <div class="total">$50</div> *@
-			@*     <a href="#" class="view-product">View Product »</a> *@
-			@* </div> *@
-			@* <div class="order-item"> *@
-			@*     <div class="order-number">Order Number #12658<br><span class="order-date">Order Date: 2025-01-20</span></div> *@
-			@*     <div class="payment">Credit Card</div> *@
-			@*     <div class="status delivered">Delivered <span class="status-date">(Updated: 2025-01-25 09:10 AM)</span></div> *@
-			@*     <div class="total">$12</div> *@
-			@*     <a href="#" class="view-product">View Product »</a> *@
-			@* </div> *@
-			@* <div class="order-item"> *@
-			@*     <div class="order-number">Order Number #25641<br><span class="order-date">Order Date: 2025-01-15</span></div> *@
-			@*     <div class="payment">Credit Card</div> *@
-			@*     <div class="status delivered">Delivered <span class="status-date">(Updated: 2025-01-18 11:20 AM)</span></div> *@
-			@*     <div class="total">$58.26</div> *@
-			@*     <a href="#" class="view-product">View Product »</a> *@
-			@* </div> *@
 		</div>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
