@@ -158,12 +158,34 @@
             border-color: #2a9d8f;
             box-shadow: 0 0 5px rgba(42, 157, 143, 0.5);
         }
+
+    .go-back-container {
+        text-align: right; /* Align the button to the right */
+        margin-bottom: 20px; /* Add some spacing below the button */
+    }
+
+    .go-back-button {
+        background-color: #2a9d8f; /* Match the theme color */
+        color: #fff; /* White text */
+        padding: 8px 18px; /* Add padding */
+        border-radius: 5px; /* Rounded corners */
+        text-decoration: none; /* Remove underline */
+        font-size: 16px; /* Match the font size */
+        transition: background-color 0.3s ease; /* Smooth hover effect */
+    }
+
+        .go-back-button:hover {
+            background-color: #21867a; /* Darker shade on hover */
+            color:black;
+        }
 </style>
 
 
 <div class="container">
     @* <a href="#"> <span class="text-light m-2"> Back to menu </span></a> *@
-    <a href="javascript:history.back()">Go Back</a>
+    <div class="go-back-container pt-3">
+        <a href="javascript:history.back()" class="go-back-button">Go Back</a>
+    </div>
 
     <div class="shoe-details">
 
@@ -180,9 +202,9 @@
             @* <h1>Nike Running Shoe</h1>  *@
             <h1>@Model.Name</h1>
             <div class="price">$@Model.Price</div>
-            <div class="rating">
-                @Model.Rating ⭐⭐⭐⭐⭐ <span>(50 Reviews)</span>
-            </div>
+            @* <div class="rating"> *@
+            @*     @Model.Rating ⭐⭐⭐⭐⭐ <span>(50 Reviews)</span> *@
+            @* </div> *@
             <p class="description">
                 @* This Nike Running Shoe is designed for maximum comfort and style. Featuring lightweight materials, breathable mesh, and a cushioned sole, it ensures a great running experience. *@
                 @Model.Description
@@ -201,35 +223,29 @@
         </div>
     </div>
 
-    <div class="reviews">
-        <h2>Customer Reviews</h2>
+    @* <div class="reviews"> *@
+    @*     <h2>Customer Reviews</h2> *@
 
-        @if (Model.UserName == "")
-        {
-            <p>No review yet</p>
-        }
-        else
-        {
 
-            <div class="review">
-                <div class="reviewer">John Doe</div>
-                <div class="rating">⭐⭐⭐⭐⭐</div>
-                <div class="comment">Amazing shoes! Super comfortable and stylish.</div>
-            </div>
+    @*     <div class="review"> *@
+    @*         <div class="reviewer">John Doe</div> *@
+    @*         <div class="rating">⭐⭐⭐⭐⭐</div> *@
+    @*         <div class="comment">Amazing shoes! Super comfortable and stylish.</div> *@
+    @*     </div> *@
 
-            <div class="review">
-                <div class="reviewer">Jane Smith</div>
-                <div class="rating">⭐⭐⭐⭐⭐</div>
-                <div class="comment">Absolutely love these. Perfect for running and casual wear.</div>
-            </div>
+    @*     <div class="review"> *@
+    @*         <div class="reviewer">Jane Smith</div> *@
+    @*         <div class="rating">⭐⭐⭐⭐⭐</div> *@
+    @*         <div class="comment">Absolutely love these. Perfect for running and casual wear.</div> *@
+    @*     </div> *@
 
-            <div class="review">
-                <div class="reviewer">Mark Wilson</div>
-                <div class="rating">⭐⭐⭐⭐⭐</div>
-                <div class="comment">Great value for money. Highly recommended!</div>
-            </div>
-        }
-    </div>
+    @*     <div class="review"> *@
+    @*         <div class="reviewer">Mark Wilson</div> *@
+    @*         <div class="rating">⭐⭐⭐⭐⭐</div> *@
+    @*         <div class="comment">Great value for money. Highly recommended!</div> *@
+    @*     </div> *@
+
+    @* </div> *@
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
